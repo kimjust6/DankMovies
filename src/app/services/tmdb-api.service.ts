@@ -7,6 +7,7 @@ import { lastValueFrom, Observable } from 'rxjs';
 })
 export class ApiServiceService {
 
+  //api urls
   private API_KEY_V3: string = 'f188b78886ed3d7d07d9dc9ce52af7e0';
   private API_KEY_V4: string = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTg4Yjc4ODg2ZWQzZDdkMDdkOWRjOWNlNTJhZjdlMCIsInN1YiI6IjYyN2IxNzI4ZDc1YmQ2MDBhYjEzYzBkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hlZyYH07el5DdhBJ_bk-dlD0xSSibkfzcRRFVhD2rKU';
   private BASE_URL_V3: string = 'https://api.themoviedb.org/3/';
@@ -14,15 +15,27 @@ export class ApiServiceService {
   private TOKEN_URL: string = 'authentication/token/new'
   private SEARCH_MOVIE_URL: string = 'search/movie';
   private SEARCH_KEYWORD_URL: string = 'search/keyword';
+  private SEARCH_MULTI_URL: string = 'search/multi';
   private ACCESS_TOKEN: any = null;
+
+  private MOVIE_DETAILS_BY_ID: string = 'movie/{movie_id}';
 
   constructor(
     private http: HttpClient,
   ) {
-    this.searchMovie("harry",2);
+    this.getMovieDetailsByID(671).then(result =>
+    // this.findMovies("harry",1).then(result =>
+      {
+        console.log(result);
+      });
+    
   }
 
-
+  /**
+   * @name getToken
+   * @description method that gets the a V3 Access Token
+   * @returns {Promise}
+   */
   async getToken() {
     // create the url
     const url = this.BASE_URL_V3 + this.TOKEN_URL;
@@ -39,6 +52,12 @@ export class ApiServiceService {
     return value;
   }
 
+
+  /**
+   * @name checkToken
+   * @description method that will check if we have a valid v3 token, if not, it will fetch a valid token & store in this.ACCESS_TOKEN
+   * @returns {void}
+   */
   async checkToken() {
 
     //check if the token is null or if token is expired
@@ -51,12 +70,16 @@ export class ApiServiceService {
     }
   }
 
-
-
-
-  async searchMovie(_query: string, _page: number) {
-    //check if we have token
-    this.checkToken();
+  /**
+   * @name findMovies
+   * @description returns a page _page of the _query
+   * @param {string} _query the search string that we want to match
+   * @param {number} _page the page number for pagination
+   * @returns {Promise}
+   */
+  async findMovies(_query: string, _page: number) {
+    //check if we have token (only required for V3)
+    // this.checkToken();
 
     // create the url
     const url = this.BASE_URL_V4 + this.SEARCH_MOVIE_URL;
@@ -64,22 +87,48 @@ export class ApiServiceService {
     // create the headers for the api call
     const queryHeader = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.ACCESS_TOKEN}`
+      'Authorization': `Bearer ${this.API_KEY_V4}`
     })
 
     // create the parameters for the api call
     let queryParams = new HttpParams();
     queryParams = queryParams
       .append('query', _query)
-      .append('api_key', this.API_KEY_V3)
+      // .append('api_key', this.API_KEY_V3)
       .append('page', _page);
 
     // make the api call
     const data$ = this.http.get(url, { headers: queryHeader, params: queryParams });
-    // const value = await lastValueFrom(data$);
-    await lastValueFrom(data$).then((result) => {
-      console.log(result);
-    });
+    const value = await lastValueFrom(data$);
+
+    return value;
+
+  }
+
+  /**
+   * @name getMovieDetailsByID
+   * @description this method returns the details of a movie that we want to find (by id)
+   * @param _movieID the id of the movie that we want to find details of 
+   * @returns {Promise}
+   */
+  async getMovieDetailsByID(_movieID: number) {
+    //check if we have token (only required for V3)
+    // this.checkToken();
+
+    // create the url
+    const url = this.BASE_URL_V4 + this.MOVIE_DETAILS_BY_ID.replace('{movie_id}', _movieID.toString());
+
+    // create the headers for the api call
+    const queryHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.API_KEY_V4}`
+    })
+
+    // make the api call
+    const data$ = this.http.get(url, { headers: queryHeader });
+    const value = await lastValueFrom(data$);
+
+    return value;
 
   }
 }
