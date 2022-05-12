@@ -9,7 +9,7 @@ import { ApiServiceService } from 'src/app/services/tmdb-api.service';
 export class HomepageComponent implements OnInit {
 
   constructor(
-    private tmbdAPI: ApiServiceService,
+    private tmdbAPI: ApiServiceService,
   ) { }
 
   ngOnInit(): void {
@@ -18,7 +18,6 @@ export class HomepageComponent implements OnInit {
 
   doStuff()
   {
-    // console.log("nice");
-    this.tmbdAPI.getToken();
+    this.tmdbAPI.checkToken();
   }
 }
