@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
-
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { HomepageComponent } from 'src/app/components/homepage/homepage.component';
-import { Page404Component } from './components/page-404/page-404.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { Page404Component } from './components/page-404/page-404.component';
 
 import { ApiServiceService } from './services/tmdb-api.service';
 
@@ -16,18 +19,23 @@ import { ApiServiceService } from './services/tmdb-api.service';
   declarations: [
     AppComponent,
     HomepageComponent,
-    Page404Component,
     MovieDetailsComponent,
     NavbarComponent,
+    Page404Component,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
+    MatToolbarModule,
+    MatSidenavModule,
     HttpClientModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
+
   ],
   providers: [
     ApiServiceService,
-    
+
   ],
   bootstrap: [AppComponent]
 })
