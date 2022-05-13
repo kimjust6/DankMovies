@@ -19,12 +19,15 @@ export class ApiServiceService {
   private ACCESS_TOKEN: any = null;
 
   private MOVIE_DETAILS_BY_ID: string = 'movie/{movie_id}';
+  private MOVIE_IMAGES_BY_ID: string = 'movie/{movie_id}/images';
 
   constructor(
     private http: HttpClient,
   ) {
-    this.getMovieDetailsByID(671).then(result =>
-    // this.findMovies("harry",1).then(result =>
+    this.getMovieImagesByID(767).then(result =>
+    // this.getMovieDetailsByID(19995).then(result =>
+    // this.getMovieDetailsByID(671).then(result =>
+    // this.findMovies("avatar",1).then(result =>
       {
         console.log(result);
       });
@@ -82,7 +85,7 @@ export class ApiServiceService {
     // this.checkToken();
 
     // create the url
-    const url = this.BASE_URL_V4 + this.SEARCH_MOVIE_URL;
+    const url = this.BASE_URL_V3 + this.SEARCH_MOVIE_URL;
 
     // create the headers for the api call
     const queryHeader = new HttpHeaders({
@@ -112,11 +115,38 @@ export class ApiServiceService {
    * @returns {Promise}
    */
   async getMovieDetailsByID(_movieID: number) {
+    // check if we have token (only required for V3)
+    // this.checkToken();
+
+    // create the url
+    const url = this.BASE_URL_V3 + this.MOVIE_DETAILS_BY_ID.replace('{movie_id}', _movieID.toString());
+
+    // create the headers for the api call
+    const queryHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.API_KEY_V4}`
+    });
+
+    // create the parameters for the api call
+    let queryParams = new HttpParams();
+    queryParams = queryParams
+      // .append('api_key', this.API_KEY_V3)
+
+
+    // make the api call
+    const data$ = this.http.get(url, { headers: queryHeader, params: queryParams });
+    const value = await lastValueFrom(data$);
+
+    return value;
+
+  }
+
+  async getMovieImagesByID(_movieID: number) {
     //check if we have token (only required for V3)
     // this.checkToken();
 
     // create the url
-    const url = this.BASE_URL_V4 + this.MOVIE_DETAILS_BY_ID.replace('{movie_id}', _movieID.toString());
+    const url = this.BASE_URL_V3 + this.MOVIE_IMAGES_BY_ID.replace('{movie_id}', _movieID.toString());
 
     // create the headers for the api call
     const queryHeader = new HttpHeaders({
