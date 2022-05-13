@@ -141,6 +141,12 @@ export class ApiServiceService {
 
   }
 
+  /**
+   * @name getMovieImagesByID
+   * @description this method returns images and posters of the movie that we want to find (by id)
+   * @param _movieID the id of the movie that we want to find images of
+   * @returns 
+   */
   async getMovieImagesByID(_movieID: number) {
     //check if we have token (only required for V3)
     // this.checkToken();
