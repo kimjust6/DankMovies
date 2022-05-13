@@ -1,4 +1,15 @@
 <div class="container">
-    Hello
-    
+    <div class="content" *ngIf="loaded; else elseBlock">
+        <img src="{{posterURL}}">
+        <h2>{{movieData.original_title}}</h2>
+        <p>Synopsis: {{movieData.overview}}</p>
+        <p>Runtime: {{movieData.runtime}} Minutes</p>
+        <p>Rating: {{movieData.vote_average}}</p>
+        <p>Release Date: {{movieData.release_date}}</p>
+        <p>Budget: ${{movieData.budget | number}}</p>
+        <p>Revenue: ${{movieData.revenue | number}}</p>
+    </div>
+    <ng-template #elseBlock>
+        <h2>Loading</h2>
+    </ng-template>
 </div>
