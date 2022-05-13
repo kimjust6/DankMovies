@@ -12,6 +12,7 @@ export class tmdbAPIService {
   private API_KEY_V4: string = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTg4Yjc4ODg2ZWQzZDdkMDdkOWRjOWNlNTJhZjdlMCIsInN1YiI6IjYyN2IxNzI4ZDc1YmQ2MDBhYjEzYzBkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hlZyYH07el5DdhBJ_bk-dlD0xSSibkfzcRRFVhD2rKU';
   private BASE_URL_V3: string = 'https://api.themoviedb.org/3/';
   private BASE_URL_V4: string = 'https://api.themoviedb.org/4/';
+  private BASE_URL_IMAGE: string ='https://image.tmdb.org/t/p/original/'
   private TOKEN_URL: string = 'authentication/token/new'
   private SEARCH_MOVIE_URL: string = 'search/movie';
   private SEARCH_KEYWORD_URL: string = 'search/keyword';
@@ -32,6 +33,16 @@ export class tmdbAPIService {
     //     console.log(result);
     //   });
     
+  }
+
+/**
+ * @name getImageBaseURL
+ * @description simple getter method to get BASE_URL_IMAGE
+ * @returns string
+ */
+  getImageBaseURL() : string
+  {
+    return this.BASE_URL_IMAGE;
   }
 
   /**
