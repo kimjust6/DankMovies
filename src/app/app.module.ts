@@ -15,7 +15,7 @@ import { MovieDetailsComponent } from './components/movie-details/movie-details.
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { Page404Component } from './components/page-404/page-404.component';
 
-import { ApiServiceService } from './services/tmdb-api.service';
+import { tmdbAPIService } from './services/tmdb-api.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { ApiServiceService } from './services/tmdb-api.service';
     MatIconModule,
   ],
   providers: [
-    ApiServiceService,
+    tmdbAPIService,
 
   ],
   bootstrap: [AppComponent]

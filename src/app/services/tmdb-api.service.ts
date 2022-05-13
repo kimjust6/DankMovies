@@ -5,7 +5,7 @@ import { lastValueFrom, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiServiceService {
+export class tmdbAPIService {
 
   //api urls
   private API_KEY_V3: string = 'f188b78886ed3d7d07d9dc9ce52af7e0';
@@ -24,13 +24,13 @@ export class ApiServiceService {
   constructor(
     private http: HttpClient,
   ) {
-    this.getMovieImagesByID(767).then(result =>
-    // this.getMovieDetailsByID(19995).then(result =>
-    // this.getMovieDetailsByID(671).then(result =>
-    // this.findMovies("avatar",1).then(result =>
-      {
-        console.log(result);
-      });
+    // this.getMovieImagesByID(767).then(result =>
+    // // this.getMovieDetailsByID(19995).then(result =>
+    // // this.getMovieDetailsByID(671).then(result =>
+    // // this.findMovies("avatar",1).then(result =>
+    //   {
+    //     console.log(result);
+    //   });
     
   }
 

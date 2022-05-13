@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiServiceService } from 'src/app/services/tmdb-api.service';
+import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
 
 @Component({
   selector: 'app-homepage',
@@ -9,7 +9,7 @@ import { ApiServiceService } from 'src/app/services/tmdb-api.service';
 export class HomepageComponent implements OnInit {
 
   constructor(
-    private tmdbAPI: ApiServiceService,
+    private tmdbAPI: tmdbAPIService,
   ) { }
 
   ngOnInit(): void {
