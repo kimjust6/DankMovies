@@ -16,6 +16,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { Page404Component } from './components/page-404/page-404.component';
 
 import { tmdbAPIService } from './services/tmdb-api.service';
+import { MovieSearchComponent } from './components/movie-search/movie-search.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { tmdbAPIService } from './services/tmdb-api.service';
     MovieDetailsComponent,
     NavbarComponent,
     Page404Component,
+    MovieSearchComponent,
   ],
   imports: [
     AppRoutingModule,
