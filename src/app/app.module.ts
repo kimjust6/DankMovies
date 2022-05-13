@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
+import { MatInputModule } from '@angular/material/input'
+import { MatIconModule } from '@angular/material/icon'
 
 import { AppComponent } from './app.component';
 import { HomepageComponent } from 'src/app/components/homepage/homepage.component';
@@ -31,7 +33,8 @@ import { ApiServiceService } from './services/tmdb-api.service';
     HttpClientModule,
     MatButtonModule,
     BrowserAnimationsModule,
-
+    MatInputModule,
+    MatIconModule,
   ],
   providers: [
     ApiServiceService,

@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomepageComponent } from './components/homepage/homepage.component';
 import { Page404Component } from './components/page-404/page-404.component';
 const routes: Routes = [
-  { path: '', component: HomepageComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomepageComponent },
   { path: '**', pathMatch: 'full', component: Page404Component },
 ];
 
