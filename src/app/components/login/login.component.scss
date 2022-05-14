@@ -15,7 +15,7 @@
     
 }
 
-.loginForm
+.loginForm, .registerForm
 {
     margin-top: 3vh;
     min-width: 320px;
@@ -27,4 +27,8 @@
 button{
     background-color: $base-color;
     color: $baseText;
+}
+
+mat-tab{
+    color: $base-color;
 }
