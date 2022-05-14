@@ -1,13 +1,20 @@
-<div class="container">
-    <mat-form-field appearance="fill">
-        <mat-label>Email</mat-label>
-        <input matInput>
-    </mat-form-field>
+<mat-tab-group class="tabs">
+    <div class="container">
+        <mat-tab label="Login">
+            <div class="loginForm">
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput>
+                </mat-form-field>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
-        <input matInput>
-    </mat-form-field>
-    <button mat-raised-button>Login</button>
-</div>
-<!-- <button mat-raised-button>Sign Up</button> -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <button mat-raised-button>Login</button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Sign Up"> </mat-tab>
+        <button mat-raised-button>Sign Up</button>
+    </div>
+</mat-tab-group>
