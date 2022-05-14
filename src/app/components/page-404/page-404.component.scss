@@ -1,0 +1,18 @@
+@import '/src/styles.scss';
+
+.container {
+    padding-top: 15vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container h1{
+    font-size: xx-large;
+    font-weight: 500;
+}
+
+img{
+    max-height: 50vh;
+}
