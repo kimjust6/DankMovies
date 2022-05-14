@@ -1,0 +1,14 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    max-width: 100vw;
+    align-items: center;
+    justify-content: center;
+    min-height: 55vh;
+    
+}
+
+.container mat-form-field
+{
+    min-width: 250px;
+}
