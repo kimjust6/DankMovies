@@ -1,15 +1,17 @@
+@import '/src/styles.scss';
+
 .mat-toolbar{
-    background-color: cornflowerblue;
-    color: white;
+    background-color: $base-color;
+    color: $baseText;
   }
   .mat-button{
-     color: white;
+     color: $baseText;
   }
   .spacer{
     flex: 1 1 auto;
   }
 
   span a {
-    color: white;
+    color: $baseText;
     text-decoration: none;
   }
