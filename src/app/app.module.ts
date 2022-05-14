@@ -17,6 +17,10 @@ import { Page404Component } from './components/page-404/page-404.component';
 
 import { tmdbAPIService } from './services/tmdb-api.service';
 import { MovieSearchComponent } from './components/movie-search/movie-search.component';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -37,6 +41,9 @@ import { MovieSearchComponent } from './components/movie-search/movie-search.com
     BrowserAnimationsModule,
     MatInputModule,
     MatIconModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [
     tmdbAPIService,
