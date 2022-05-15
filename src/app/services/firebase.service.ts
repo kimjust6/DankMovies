@@ -12,7 +12,7 @@ import {
   getDoc,
   doc
 } from '@angular/fire/firestore'
-import { getDocs, setDoc, updateDoc } from '@firebase/firestore';
+import { deleteDoc, getDocs, setDoc, updateDoc } from '@firebase/firestore';
 
 import { UUID } from 'angular2-uuid';
 import { tmdbAPIService } from './tmdb-api.service';
@@ -105,7 +105,8 @@ export class FirebaseService {
     const movieDetail = await this.tmdbAPI.getMovieDetailsByID(movieID);
     return this.updateMovieByValueByCollectionID(movieDetail, date, collectionID);
   }
-  
+
+
   public async updateMovieByValueByCollectionID(value: any, date: Date, collectionID: string): Promise<Movie> {
 
     // initialize movie
@@ -148,9 +149,6 @@ export class FirebaseService {
 
     return movie;
 
-
-
-
     // get the collection
     // const dbInstace = collection(this.firestore, this.MOVIE_COLLECTION);
 
@@ -186,6 +184,17 @@ export class FirebaseService {
     });
 
     return this.movieArray;
+
+  }
+
+  public async deleteMovieByID(collectionID: string): Promise<void> {
+    const dataToDelete = doc(this.firestore, this.MOVIE_COLLECTION, collectionID);
+    try {
+      await deleteDoc(dataToDelete);
+    }
+    catch (error: any) {
+      this.myAlert(error.message);
+    }
 
   }
 
