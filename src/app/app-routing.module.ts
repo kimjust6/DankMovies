@@ -9,7 +9,7 @@ import { LoginComponent } from './components/login/login.component';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomepageComponent },
-  { path: 'movie/search/:query/:pageNo', component: MovieSearchComponent },
+  { path: 'movie/search', component: MovieSearchComponent },
   { path: 'movie/details/:movieID', component: MovieDetailsComponent },
   { path: 'login', component: LoginComponent },
   { path: '**', pathMatch: 'full', component: Page404Component },
