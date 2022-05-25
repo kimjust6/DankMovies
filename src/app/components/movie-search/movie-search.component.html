@@ -1,21 +1,43 @@
-<div *ngIf="results">
-
-    <div *ngFor="let result of results?.results;">
-        <mat-card class="card">
-            <mat-card-header>
-                <div mat-card-avatar class="header-image"></div>
-                <mat-card-title>{{result?.original_title}}</mat-card-title>
-                <mat-card-subtitle>{{result?.release_date}} {{result?.vote_average}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="{{tmdbAPI.getImageBaseURL()}}{{ result?.backdrop_path }}" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    {{result.overview}}
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
+<div class="container">
+    <div>
+        <form [formGroup]="myForm" (ngSubmit)="onSearch()" novalidate>
+            <mat-form-field class="search" appearance="fill">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="Title" value="" formControlName="search">
+            </mat-form-field>
+            <button mat-button color="primary" type="submit">Search</button>
+        </form>
     </div>
+
+    <div *ngIf="results!=null">
+        <div *ngFor="let result of results?.results;">
+            <mat-card class="card">
+                <div class="image-container">
+                    <img mat-card-image class="header-image"
+                        src="{{tmdbAPI.getImageBaseURL()}}{{ result?.backdrop_path }}"
+                        alt="{{result?.original_title}} Poster">
+                </div>
+                <div class="content">
+                    <mat-card-header>
+                        <!-- <div mat-card-avatar class="header-image"></div> -->
+                        <mat-card-title (click)="openMovieDetails(result?.id)">{{result?.original_title}}
+                        </mat-card-title>
+                        <mat-card-subtitle>{{result?.release_date}} · ★{{result?.vote_average}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content class="card-content">
+                        <p>
+                            {{result.overview}}
+                        </p>
+                    </mat-card-content>
+
+                    <mat-card-actions>
+                        <button mat-button>+ WATCHLIST</button>
+                        <button mat-button>SHARE</button>
+                    </mat-card-actions>
+                </div>
+            </mat-card>
+        </div>
+
+    </div>
+
+</div>

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { tmdbFindMovieResults, tmdbFindMovieResultsArray } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ export class tmdbAPIService {
   private API_KEY_V4: string = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmMTg4Yjc4ODg2ZWQzZDdkMDdkOWRjOWNlNTJhZjdlMCIsInN1YiI6IjYyN2IxNzI4ZDc1YmQ2MDBhYjEzYzBkMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hlZyYH07el5DdhBJ_bk-dlD0xSSibkfzcRRFVhD2rKU';
   private BASE_URL_V3: string = 'https://api.themoviedb.org/3/';
   private BASE_URL_V4: string = 'https://api.themoviedb.org/4/';
-  private BASE_URL_IMAGE: string ='https://image.tmdb.org/t/p/original/'
+  private BASE_URL_IMAGE: string = 'https://image.tmdb.org/t/p/original/'
   private TOKEN_URL: string = 'authentication/token/new'
   private SEARCH_MOVIE_URL: string = 'search/movie';
   private SEARCH_KEYWORD_URL: string = 'search/keyword';
@@ -32,16 +34,15 @@ export class tmdbAPIService {
     //   {
     //     console.log(result);
     //   });
-    
+
   }
 
-/**
- * @name getImageBaseURL
- * @description simple getter method to get BASE_URL_IMAGE
- * @returns string
- */
-  getImageBaseURL() : string
-  {
+  /**
+   * @name getImageBaseURL
+   * @description simple getter method to get BASE_URL_IMAGE
+   * @returns string
+   */
+  getImageBaseURL(): string {
     return this.BASE_URL_IMAGE;
   }
 
@@ -141,7 +142,7 @@ export class tmdbAPIService {
     // create the parameters for the api call
     let queryParams = new HttpParams();
     queryParams = queryParams
-      // .append('api_key', this.API_KEY_V3)
+    // .append('api_key', this.API_KEY_V3)
 
 
     // make the api call
@@ -178,4 +179,53 @@ export class tmdbAPIService {
     return value;
 
   }
+
+  public findMoviesObs(_query: string, _page: number) {
+    //check if we have token (only required for V3)
+    // this.checkToken();
+
+    // create the url
+    const url = this.BASE_URL_V3 + this.SEARCH_MOVIE_URL;
+
+    // create the headers for the api call
+    const queryHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.API_KEY_V4}`
+    })
+
+    // create the parameters for the api call
+    let queryParams = new HttpParams();
+    queryParams = queryParams
+      .append('query', _query)
+      // .append('api_key', this.API_KEY_V3)
+      .append('page', _page);
+
+    // make the api call
+    return this.http.get<any>(url, { headers: queryHeader, params: queryParams })
+      // .pipe(map(res => { return res.results.map(res => { return res }) }));
+      .pipe(map((res: any) => {
+        return res;
+
+        // (map((res: tmdbFindMovieResultsArray) => {
+        //   return {
+        //     adult: !res.adult,
+        //     backdrop_path: res.backdrop_path,
+        //     genre_ids: res.genre_ids,
+        //     id: res.id,
+        //     original_language: res.original_language,
+        //     original_title: res.original_title,
+        //     overview: res.overview,
+        //     popularity: res.popularity,
+        //     poster_path: res.poster_path,
+        //     release_date: res.release_date,
+        //     video: res.video,
+        //     vote_average: res.vote_average,
+        //     vote_count: res.vote_count,
+        //   };
+        // }))
+      }));
+
+  }
+
+
 }

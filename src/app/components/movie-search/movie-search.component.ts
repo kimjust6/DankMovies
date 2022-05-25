@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
 import { filter, map } from 'rxjs/operators';
-import { tmdbFindMovieResults } from 'src/app/interfaces/interfaces';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
+import { tmdbFindMovieResults } from 'src/app/interfaces/interfaces';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-movie-search',
@@ -19,14 +22,24 @@ export class MovieSearchComponent implements OnInit {
   // query parameter that holds the number of results to return
   public pageSize: number = 20;
   // query parameter that holds the search query
-  public query: string = 'harry';
+  public query: string = '';
 
   public results: any = null;
+
+  // search form
+  public myForm: FormGroup;
+  // variable that subscribes to the router 
 
   constructor(
     public tmdbAPI: tmdbAPIService,
     private route: ActivatedRoute,
-  ) { }
+    public fb: FormBuilder,
+    private router: Router,
+  ) {
+    this.myForm = this.fb.group({
+      search: [''],
+    });
+  }
 
 
   ngOnInit(): void {
@@ -64,17 +77,11 @@ export class MovieSearchComponent implements OnInit {
       );
 
 
-    // console.log("orderBy: ", this.orderBy);
-    // console.log("query: ", this.query);
-    // console.log("page: ", this.page);
-    // console.log("pageSize: ", this.pageSize);
 
 
-    this.tmdbAPI.findMovies(this.query, this.page).then((res) => {
-      this.results = res;
-      console.log("result: ", res);
-      // for (let r of res)
-    });
+    if (this.query !== '') {
+      this.searchMovie(this.query, this.page);
+    }
 
     // this.tmdbAPI.findMoviesObs(this.query, this.page).subscribe((res) => {
     //   console.log(res);
@@ -82,6 +89,32 @@ export class MovieSearchComponent implements OnInit {
     // });
 
 
+
+  } // ngOnInit
+
+  ngOnDestroy() {
   }
 
+  searchMovie(query: string, page: number) {
+    this.tmdbAPI.findMovies(query, page).then((res) => {
+      this.results = res;
+      // console.log("result: ", res);
+      // for (let r of res)
+    });
+  }
+
+  onSearch() {
+    // this.searchMovie(this.myForm?.value?.search, 1);
+    this.query = this.myForm?.value?.search;
+
+    // redirect page using params
+    if (this.query) {
+      this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: 1 } });
+      this.searchMovie(this.query, 1);
+    }
+  }
+
+  openMovieDetails(_id: number) {
+    this.router.navigate(["/movie/details/", _id]);
+  }
 }
