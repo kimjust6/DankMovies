@@ -37,7 +37,10 @@
                 </div>
             </mat-card>
         </div>
-
+        <mat-paginator [length]="results.total_results" [pageSize]="10" [showFirstLastButtons]="true"
+            [pageIndex]="page" (page)="handlePagination($event)">
+        </mat-paginator>
     </div>
-
+    <!-- <button mat-button color="primary" > &lt; </button>
+    <button mat-button color="primary" > &gt; </button> -->
 </div>

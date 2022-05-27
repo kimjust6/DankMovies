@@ -110,7 +110,7 @@ export class tmdbAPIService {
     queryParams = queryParams
       .append('query', _query)
       // .append('api_key', this.API_KEY_V3)
-      .append('page', _page);
+      .append('page', _page+1);
 
     // make the api call
     const data$ = this.http.get(url, { headers: queryHeader, params: queryParams });

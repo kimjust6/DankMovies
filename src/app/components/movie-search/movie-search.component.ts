@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { tmdbFindMovieResults } from 'src/app/interfaces/interfaces';
 import { HttpParams } from '@angular/common/http';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-movie-search',
@@ -18,13 +19,14 @@ export class MovieSearchComponent implements OnInit {
   // query parameter to tell what to order the search results in
   public orderBy: string = '';
   // query parameter that holds the page number we are on
-  public page: number = 1;
+  public page: number = 0;
   // query parameter that holds the number of results to return
   public pageSize: number = 20;
   // query parameter that holds the search query
   public query: string = '';
-
+  // holds the results of search api call
   public results: any = null;
+  // public pageEvent: any;
 
   // search form
   public myForm: FormGroup;
@@ -43,6 +45,10 @@ export class MovieSearchComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+      return false;
+  };
+
 
     // subscribe to the query parameters in the route
     // following code is executed whe one  the query parameters change
@@ -76,9 +82,6 @@ export class MovieSearchComponent implements OnInit {
       }
       );
 
-
-
-
     if (this.query !== '') {
       this.searchMovie(this.query, this.page);
     }
@@ -88,18 +91,22 @@ export class MovieSearchComponent implements OnInit {
     //   this.results = res;
     // });
 
-
-
   } // ngOnInit
 
   ngOnDestroy() {
   }
 
-  searchMovie(query: string, page: number) {
-    this.tmdbAPI.findMovies(query, page).then((res) => {
+  searchMovie(_query: string, _page: number) {
+    this.tmdbAPI.findMovies(_query, _page).then((res) => {
       this.results = res;
-      // console.log("result: ", res);
-      // for (let r of res)
+      console.log("result: ", res);
+      for (let r of this.results.results)
+      {
+        if (!r.backdrop_path)
+        {
+          r.backdrop_path = r.poster_path;
+        }
+      }
     });
   }
 
@@ -109,12 +116,18 @@ export class MovieSearchComponent implements OnInit {
 
     // redirect page using params
     if (this.query) {
-      this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: 1 } });
+      this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: 0 } });
       this.searchMovie(this.query, 1);
     }
   }
 
   openMovieDetails(_id: number) {
-    this.router.navigate(["/movie/details/", _id]);
+    this.router.navigate(["/movie/details", _id]);
+  }
+
+  handlePagination(_event: PageEvent) {
+    console.log("pageEvent: ", _event);
+    this.page = _event.pageIndex;
+    this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: this.page } });
   }
 }
