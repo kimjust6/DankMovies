@@ -27,8 +27,7 @@ export class MovieDetailsComponent implements OnInit {
       this.movieID = +params['movieID']; // (+) converts string 'id' to a number
       this.tmdbAPI.getMovieDetailsByID(this.movieID).then(result => {
         this.movieData = result;
-        this.posterURL = this.tmdbAPI.getImageBaseURL() + this.movieData.poster_path;
-        // console.log(this.movieData);
+        this.posterURL = (this.tmdbAPI.getImageBaseURL() + this.movieData.poster_path);
         this.loaded = true;
       });
     });

@@ -133,7 +133,7 @@ export class FirebaseService {
       filmTitle: value?.title,
       movieID: value?.id,
       overview: value?.overview,
-      posterPath: this?.tmdbAPI.getImageBaseURL + value.posterPath,
+      posterPath: (this.tmdbAPI.getImageBaseURL() + value.posterPath),
       rating: -1,
       releaseDate: value?.release_date,
       revenue: value?.revenue,
@@ -152,7 +152,7 @@ export class FirebaseService {
     movie.filmTitle ? true : movie.filmTitle = this.NULL_VALUE;
     movie.movieID ? true : movie.movieID = this.NULL_VALUE;
     movie.overview ? true : movie.overview = this.NULL_VALUE;
-    movie.posterPath ? true : movie.posterPath = this.NULL_VALUE;
+    movie.posterPath ? true : movie.posterPath = '';
     movie.posterPath ? true : value.backdrop_path = this.NULL_VALUE;
     movie.rating ? true : movie.rating = this.NULL_VALUE;
     movie.releaseDate ? true : movie.releaseDate = this.NULL_VALUE;
