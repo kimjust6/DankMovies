@@ -1,3 +1,41 @@
-<p>homepage works!</p>
+<mat-table *ngIf="finishedLoading" [dataSource]="movieTable" class="mat-elevation-z8">
+  <!-- Index Column -->
+  <ng-container matColumnDef="index">
+    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.index}} </mat-cell>
+  </ng-container>
 
-<button (click)="doStuff()">Nice</button>
+  <!-- Poster Column -->
+  <ng-container matColumnDef="poster">
+    <mat-header-cell *matHeaderCellDef> Poster </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.posterPath}} </mat-cell>
+  </ng-container>
+
+  <!-- Title Column -->
+  <ng-container matColumnDef="movieTitle">
+    <mat-header-cell *matHeaderCellDef> Film Title </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.filmTitle}} {{"\["}}{{element.releaseDate | date: 'yyyy'}}{{"\]"}}
+    </mat-cell>
+  </ng-container>
+
+  <!-- Runtime Column -->
+  <ng-container matColumnDef="runtime">
+    <mat-header-cell *matHeaderCellDef> Runtime </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.runtime}} </mat-cell>
+  </ng-container>
+
+  <!-- tmdbRating Column -->
+  <ng-container matColumnDef="tmdbRating">
+    <mat-header-cell *matHeaderCellDef> TMDB Rating </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.tmdbRating}} </mat-cell>
+  </ng-container>
+
+  <!-- peoplePresent Column -->
+  <ng-container matColumnDef="peoplePresent">
+    <mat-header-cell *matHeaderCellDef> People Present </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.watched.length + element.failed.length}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
