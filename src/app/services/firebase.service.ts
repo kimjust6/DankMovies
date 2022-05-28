@@ -9,10 +9,9 @@ import {
   addDoc,
   Firestore,
   collection,
-  getDoc,
   doc
 } from '@angular/fire/firestore'
-import { deleteDoc, getDocs, setDoc, updateDoc } from '@firebase/firestore';
+import { deleteDoc, getDocs, setDoc } from '@firebase/firestore';
 
 import { UUID } from 'angular2-uuid';
 import { tmdbAPIService } from './tmdb-api.service';
@@ -24,7 +23,6 @@ import { Movie } from '../interfaces/interfaces';
   providedIn: 'root'
 })
 export class FirebaseService {
-  private dbInstance: any;
   private uuid: string | undefined;
   private movieArray: any = [];
   private MOVIE_COLLECTION = 'Movies';
@@ -95,29 +93,47 @@ export class FirebaseService {
 
   }
 
-
-  public async addMovieByValue(value: any, date: Date): Promise<Movie> {
+  /**
+   * @name addMovieByValue
+   * @description save the film data to the firestore db
+   * @param value the tmdb movie data
+   * @param date the date that the film was watched
+   */
+  public addMovieByValue(value: any, date: Date): Promise<Movie> {
     return this.updateMovieByValueByCollectionID(value, date, new Date().getTime().toString() + this.generateUUID());
   }
 
-
+/**
+ * @name updateMovieByIDByCollectionID
+ * @param movieID this is the id of the movie
+ * @param date this is the date that the film was watched
+ * @param collectionID this is the unique id that the server will save as the collectionID
+ * @returns 
+ */
   public async updateMovieByIDByCollectionID(movieID: number, date: Date, collectionID: string): Promise<Movie> {
     const movieDetail = await this.tmdbAPI.getMovieDetailsByID(movieID);
     return this.updateMovieByValueByCollectionID(movieDetail, date, collectionID);
   }
 
-
+/**
+ * @name updateMovieByValueByCollectionID
+ * @param value 
+ * @param date 
+ * @param collectionID 
+ * @returns 
+ */
   public async updateMovieByValueByCollectionID(value: any, date: Date, collectionID: string): Promise<Movie> {
 
     // initialize movie
     let movie = {
       budget: value?.budget,
-      collectionID: value?.belongs_to_collection?.id,
+      movieCollectionID: value?.belongs_to_collection?.id,
+      fireCollectionID: collectionID,
       collectionName: value?.belongs_to_collection?.name,
       filmTitle: value?.title,
       movieID: value?.id,
       overview: value?.overview,
-      posterPath: this?.tmdbAPI.getImageBaseURL + value.posterPath,
+      posterPath: (this.tmdbAPI.getImageBaseURL() + value.posterPath),
       rating: -1,
       releaseDate: value?.release_date,
       revenue: value?.revenue,
@@ -130,19 +146,20 @@ export class FirebaseService {
     }
 
     // check for invalid data
-    movie.budget ? true : movie.budget = -this.NULL_VALUE;
-    movie.collectionID ? true : movie.collectionID = -this.NULL_VALUE;
-    movie.collectionName ? true : movie.collectionName = -this.NULL_VALUE;
-    movie.filmTitle ? true : movie.filmTitle = -this.NULL_VALUE;
-    movie.movieID ? true : movie.movieID = -this.NULL_VALUE;
-    movie.overview ? true : movie.overview = -this.NULL_VALUE;
-    movie.posterPath ? true : movie.posterPath = -this.NULL_VALUE;
-    movie.rating ? true : movie.rating = -this.NULL_VALUE;
-    movie.releaseDate ? true : movie.releaseDate = -this.NULL_VALUE;
-    movie.revenue ? true : movie.revenue = -this.NULL_VALUE;
-    movie.runtime ? true : movie.runtime = -this.NULL_VALUE;
-    movie.tmdbRating ? true : movie.tmdbRating = -this.NULL_VALUE;
-    movie.tmdbVoteCount ? true : movie.tmdbVoteCount = -this.NULL_VALUE;
+    movie.budget ? true : movie.budget = this.NULL_VALUE;
+    movie.movieCollectionID ? true : movie.movieCollectionID = this.NULL_VALUE;
+    movie.collectionName ? true : movie.collectionName = this.NULL_VALUE;
+    movie.filmTitle ? true : movie.filmTitle = this.NULL_VALUE;
+    movie.movieID ? true : movie.movieID = this.NULL_VALUE;
+    movie.overview ? true : movie.overview = this.NULL_VALUE;
+    movie.posterPath ? true : movie.posterPath = '';
+    movie.posterPath ? true : value.backdrop_path = this.NULL_VALUE;
+    movie.rating ? true : movie.rating = this.NULL_VALUE;
+    movie.releaseDate ? true : movie.releaseDate = this.NULL_VALUE;
+    movie.revenue ? true : movie.revenue = this.NULL_VALUE;
+    movie.runtime ? true : movie.runtime = this.NULL_VALUE;
+    movie.tmdbRating ? true : movie.tmdbRating = this.NULL_VALUE;
+    movie.tmdbVoteCount ? true : movie.tmdbVoteCount = this.NULL_VALUE;
 
     const dataToUpdate = doc(this.firestore, this.MOVIE_COLLECTION, collectionID);
     setDoc(dataToUpdate, movie);
@@ -182,11 +199,14 @@ export class FirebaseService {
       // doc.data() is never undefined for query doc snapshots
       this.movieArray[i++] = (doc.id, " => ", doc.data());
     });
-
     return this.movieArray;
-
   }
 
+  /**
+   * @name deleteMovieByID
+   * @description this method deletes the film in the firestore db by using id
+   * @param collectionID this is the id of the document that is to be deleted
+   */
   public async deleteMovieByID(collectionID: string): Promise<void> {
     const dataToDelete = doc(this.firestore, this.MOVIE_COLLECTION, collectionID);
     try {
@@ -195,7 +215,6 @@ export class FirebaseService {
     catch (error: any) {
       this.myAlert(error.message);
     }
-
   }
 
   /**

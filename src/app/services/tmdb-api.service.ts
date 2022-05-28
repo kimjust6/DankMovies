@@ -27,14 +27,6 @@ export class tmdbAPIService {
   constructor(
     private http: HttpClient,
   ) {
-    // this.getMovieImagesByID(767).then(result =>
-    // // this.getMovieDetailsByID(19995).then(result =>
-    // // this.getMovieDetailsByID(671).then(result =>
-    // // this.findMovies("avatar",1).then(result =>
-    //   {
-    //     console.log(result);
-    //   });
-
   }
 
   /**
@@ -67,21 +59,18 @@ export class tmdbAPIService {
     return value;
   }
 
-
   /**
    * @name checkToken
    * @description method that will check if we have a valid v3 token, if not, it will fetch a valid token & store in this.ACCESS_TOKEN
    * @returns {void}
    */
   async checkToken() {
-
     //check if the token is null or if token is expired
     if (this.ACCESS_TOKEN === null || this.ACCESS_TOKEN['success'] === false || new Date(this.ACCESS_TOKEN['expires_at']) < new Date()) {
       //if token is null, get token
       await this.getToken().then((result) => {
         this.ACCESS_TOKEN = result;
       });;
-
     }
   }
 
@@ -115,9 +104,7 @@ export class tmdbAPIService {
     // make the api call
     const data$ = this.http.get(url, { headers: queryHeader, params: queryParams });
     const value = await lastValueFrom(data$);
-
     return value;
-
   }
 
   /**
@@ -150,7 +137,6 @@ export class tmdbAPIService {
     const value = await lastValueFrom(data$);
 
     return value;
-
   }
 
   /**
@@ -177,9 +163,14 @@ export class tmdbAPIService {
     const value = await lastValueFrom(data$);
 
     return value;
-
   }
 
+  /**
+   * @name findMoviesObs
+   * @param _query the query string
+   * @param _page the page number that you want to view
+   * @returns observable instead of promise
+   */
   public findMoviesObs(_query: string, _page: number) {
     //check if we have token (only required for V3)
     // this.checkToken();
@@ -224,8 +215,5 @@ export class tmdbAPIService {
         //   };
         // }))
       }));
-
   }
-
-
 }
