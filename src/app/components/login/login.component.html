@@ -2,12 +2,12 @@
     <div class="container">
         <mat-tab label="Login">
             <form [formGroup]="formLogin" class="loginForm" (ngSubmit)="handleLogin()">
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email">
                 </mat-form-field>
 
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" formControlName="password">
                 </mat-form-field>
@@ -16,23 +16,23 @@
         </mat-tab>
         <mat-tab label="Sign Up">
             <form [formGroup]="formRegister" class="registerForm" (ngSubmit)="handleRegister()">
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
                     <input matInput formControlName="email">
                 </mat-form-field>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>First Name</mat-label>
                     <input matInput formControlName="firstName">
                 </mat-form-field>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Last Name</mat-label>
                     <input matInput formControlName="lastName">
                 </mat-form-field>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" formControlName="password">
                 </mat-form-field>
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Repeat Password</mat-label>
                     <input matInput type="password" formControlName="repeatPassword">
                 </mat-form-field>
