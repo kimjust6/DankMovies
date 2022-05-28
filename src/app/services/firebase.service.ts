@@ -95,11 +95,11 @@ export class FirebaseService {
 
   /**
    * @name addMovieByValue
-   * @description add film to the firestore db
-   * @param value 
-   * @param date
+   * @description save the film data to the firestore db
+   * @param value the tmdb movie data
+   * @param date the date that the film was watched
    */
-  public async addMovieByValue(value: any, date: Date): Promise<Movie> {
+  public addMovieByValue(value: any, date: Date): Promise<Movie> {
     return this.updateMovieByValueByCollectionID(value, date, new Date().getTime().toString() + this.generateUUID());
   }
 
@@ -115,7 +115,13 @@ export class FirebaseService {
     return this.updateMovieByValueByCollectionID(movieDetail, date, collectionID);
   }
 
-
+/**
+ * @name updateMovieByValueByCollectionID
+ * @param value 
+ * @param date 
+ * @param collectionID 
+ * @returns 
+ */
   public async updateMovieByValueByCollectionID(value: any, date: Date, collectionID: string): Promise<Movie> {
 
     // initialize movie
