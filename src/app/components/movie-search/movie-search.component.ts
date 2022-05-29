@@ -4,10 +4,12 @@ import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
 import { filter, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-
-import { tmdbFindMovieResults } from 'src/app/interfaces/interfaces';
-import { HttpParams } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
+
+// import { FirebaseService } from 'src/app/services/firebase.service';
+import { tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
+import { MatDialog } from '@angular/material/dialog';
+import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
 
 @Component({
   selector: 'app-movie-search',
@@ -37,18 +39,19 @@ export class MovieSearchComponent implements OnInit {
     private route: ActivatedRoute,
     public fb: FormBuilder,
     private router: Router,
+    // private dbService: FirebaseService,
+    private dialog: MatDialog,
   ) {
     this.myForm = this.fb.group({
       search: [''],
     });
   }
 
-
   ngOnInit(): void {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+    // this forces the component to refresh
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
-  };
-
+    };
 
     // subscribe to the query parameters in the route
     // following code is executed whe one  the query parameters change
@@ -86,11 +89,6 @@ export class MovieSearchComponent implements OnInit {
       this.searchMovie(this.query, this.page);
     }
 
-    // this.tmdbAPI.findMoviesObs(this.query, this.page).subscribe((res) => {
-    //   console.log(res);
-    //   this.results = res;
-    // });
-
   } // ngOnInit
 
   ngOnDestroy() {
@@ -99,11 +97,9 @@ export class MovieSearchComponent implements OnInit {
   searchMovie(_query: string, _page: number) {
     this.tmdbAPI.findMovies(_query, _page).then((res) => {
       this.results = res;
-      console.log("result: ", res);
-      for (let r of this.results.results)
-      {
-        if (!r.backdrop_path)
-        {
+      // console.log("result: ", res);
+      for (let r of this.results.results) {
+        if (!r.backdrop_path) {
           r.backdrop_path = r.poster_path;
         }
       }
@@ -113,11 +109,11 @@ export class MovieSearchComponent implements OnInit {
   onSearch() {
     // this.searchMovie(this.myForm?.value?.search, 1);
     this.query = this.myForm?.value?.search;
-
     // redirect page using params
     if (this.query) {
       this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: 0 } });
       this.searchMovie(this.query, 1);
+      // this.myForm?.value?.search?.setValue(this.query);
     }
   }
 
@@ -129,5 +125,25 @@ export class MovieSearchComponent implements OnInit {
     console.log("pageEvent: ", _event);
     this.page = _event.pageIndex;
     this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: this.page } });
+  }
+
+  openWatchlistModal(_movie: tmdbFindMovieResultsArray) {
+
+    // if add to watchlist is clicked, open the watchlist modal component
+    const dialogRef = this.dialog.open(WatchlistModalComponent, {
+      data: {
+        movieData: _movie
+      }
+    });
+
+    // handle when the modal is closed
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      // 
+      if (result) {
+        
+      }
+    });
+
   }
 }

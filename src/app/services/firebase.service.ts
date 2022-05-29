@@ -81,9 +81,9 @@ export class FirebaseService {
    * (real addUser will use firebase authentication)
    * @param value the value of the form that will be entered into the firestore db
    */
-  public addUserInfo(value: any) {
+  public addUserInfo(_value: any) {
     const dbInstance = collection(this.firestore, this.USER_COLLECTION);
-    addDoc(dbInstance, value)
+    addDoc(dbInstance, _value)
       .then(() => {
         console.log("added user");
       })
@@ -96,32 +96,32 @@ export class FirebaseService {
   /**
    * @name addMovieByValue
    * @description save the film data to the firestore db
-   * @param value the tmdb movie data
-   * @param date the date that the film was watched
+   * @param _value the tmdb movie data
+   * @param _date the date that the film was watched
    */
-  public addMovieByValue(value: any, date: Date): Promise<Movie> {
-    return this.updateMovieByValueByCollectionID(value, date, new Date().getTime().toString() + this.generateUUID());
+  public addMovieByValue(_value: any, _date: Date): Promise<Movie> {
+    return this.updateMovieByValueByCollectionID(_value, _date, _date.getTime().toString() + this.generateUUID());
   }
 
-/**
- * @name updateMovieByIDByCollectionID
- * @param movieID this is the id of the movie
- * @param date this is the date that the film was watched
- * @param collectionID this is the unique id that the server will save as the collectionID
- * @returns 
- */
-  public async updateMovieByIDByCollectionID(movieID: number, date: Date, collectionID: string): Promise<Movie> {
-    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(movieID);
-    return this.updateMovieByValueByCollectionID(movieDetail, date, collectionID);
+  /**
+   * @name updateMovieByIDByCollectionID
+   * @param _movieID this is the id of the movie
+   * @param _date this is the date that the film was watched
+   * @param _collectionID this is the unique id that the server will save as the collectionID
+   * @returns 
+   */
+  public async updateMovieByIDByCollectionID(_movieID: number, _date: Date, _collectionID: string): Promise<Movie> {
+    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(_movieID);
+    return this.updateMovieByValueByCollectionID(movieDetail, _date, _collectionID);
   }
 
-/**
- * @name updateMovieByValueByCollectionID
- * @param value 
- * @param date 
- * @param collectionID 
- * @returns 
- */
+  /**
+   * @name updateMovieByValueByCollectionID
+   * @param value 
+   * @param date 
+   * @param collectionID 
+   * @returns 
+   */
   public async updateMovieByValueByCollectionID(value: any, date: Date, collectionID: string): Promise<Movie> {
 
     // initialize movie
@@ -133,7 +133,7 @@ export class FirebaseService {
       filmTitle: value?.title,
       movieID: value?.id,
       overview: value?.overview,
-      posterPath: (this.tmdbAPI.getImageBaseURL() + value.posterPath),
+      posterPath: (this.tmdbAPI.getImageBaseURL() + value.poster_path),
       rating: -1,
       releaseDate: value?.release_date,
       revenue: value?.revenue,
@@ -153,7 +153,7 @@ export class FirebaseService {
     movie.movieID ? true : movie.movieID = this.NULL_VALUE;
     movie.overview ? true : movie.overview = this.NULL_VALUE;
     movie.posterPath ? true : movie.posterPath = '';
-    movie.posterPath ? true : value.backdrop_path = this.NULL_VALUE;
+    movie.posterPath === '' ? movie.posterPath = value.backdrop_path : false;
     movie.rating ? true : movie.rating = this.NULL_VALUE;
     movie.releaseDate ? true : movie.releaseDate = this.NULL_VALUE;
     movie.revenue ? true : movie.revenue = this.NULL_VALUE;
@@ -179,11 +179,15 @@ export class FirebaseService {
    * @description this method will look up the details of the movie using the tmdb api and saved it 
    * into the firestore db
    * @param movieID this is the id of the movie that will be returned
+   * @param date this is the date that the movie was watched
    */
   public async addMovieByID(movieID: number, date: Date): Promise<Movie> {
-    //make the api call to get the movie details
     const movieDetail = await this.tmdbAPI.getMovieDetailsByID(movieID);
     return this.addMovieByValue(movieDetail, date);
+    // this.tmdbAPI.getMovieDetailsByID(movieID).then((res) => {
+    //   return this.addMovieByValue(res, date);
+    // });
+
   }
 
   /**

@@ -53,10 +53,11 @@ export class HomepageComponent implements OnInit {
     this.firebase.getAllMovies()
       .then((res) => {
         tempMovieTable = res;
-
+        tempMovieTable.reverse();
         // create the index for the films so that we don't have to handle it on server side
-        for (let i = 0; i < tempMovieTable.length; ++i) {
-          tempMovieTable[i].index = i + 1;
+        let index = tempMovieTable.length;
+        for (let movie of tempMovieTable) {
+          movie.index = index--;
         }
 
         this.movieTable = new MatTableDataSource(tempMovieTable);

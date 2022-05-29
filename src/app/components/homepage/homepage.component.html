@@ -16,7 +16,7 @@
     <!-- Poster Column -->
     <ng-container matColumnDef="poster">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Poster </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.posterPath}} </mat-cell>
+      <mat-cell *matCellDef="let element"><img class="poster" src="{{element.posterPath}}" > </mat-cell>
     </ng-container>
 
     <!-- Title Column -->
