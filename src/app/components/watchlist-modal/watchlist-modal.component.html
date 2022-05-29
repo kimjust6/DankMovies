@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{data.movieData.original_title}} {{"\["}}{{data.movieData.release_date | date:'yyyy' }}{{"\]"}}
+</h2>
+<mat-dialog-content class="mat-typography">
+    <!-- <h3>Date</h3> -->
+    <!-- <p></p> -->
+    <form [formGroup]="movieForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Watch Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="watchDate">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <!-- <h3>Date</h3> -->
+        <!-- <p></p> -->
+
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" (click)="addMovie()" cdkFocusInitial [disabled]="!movieForm.valid">Add</button>
+</mat-dialog-actions>
