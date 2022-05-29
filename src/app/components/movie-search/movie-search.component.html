@@ -20,7 +20,7 @@
                 <div class="content">
                     <mat-card-header>
                         <!-- <div mat-card-avatar class="header-image"></div> -->
-                        <mat-card-title (click)="openMovieDetails(result?.id)">{{result?.original_title}}
+                        <mat-card-title (click)="openMovieDetails(result?.id)">{{result?.original_title}} {{"\["}}{{result?.release_date | date:'yyyy' }}{{"\]"}}
                         </mat-card-title>
                         <mat-card-subtitle>{{result?.release_date}} · ★{{result?.vote_average}}</mat-card-subtitle>
                     </mat-card-header>
@@ -31,7 +31,7 @@
                     </mat-card-content>
 
                     <mat-card-actions>
-                        <button mat-button (click)=addFilmToWatchlist(result)>+ WATCHLIST</button>
+                        <button mat-button (click)=openWatchlistModal(result)>+ WATCHLIST</button>
                         <button mat-button>SHARE</button>
                     </mat-card-actions>
                 </div>

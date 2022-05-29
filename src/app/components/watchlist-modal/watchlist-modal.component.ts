@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 
 @Component({
@@ -20,16 +21,32 @@ export class WatchlistModalComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { movieData: tmdbFindMovieResultsArray },
     private fb: FormBuilder,
+    private dbService: FirebaseService,
+    private dialogRef: MatDialogRef<WatchlistModalComponent>
   ) {
     console.log(this.data.movieData)
   }
 
   ngOnInit(): void {
+    // initialize the form to have today's date
+    this.movieForm?.controls['watchDate']?.setValue(new Date());
   }
 
-  addMovie()
+  ngAfterView()
   {
-    
+
+  }
+
+  addMovie() {
+    if (this.movieForm?.value?.watchDate) {
+      // console.log(this.data.movieData.id, this.movieForm?.value?.watchDate);
+      this.dbService.addMovieByID(this.data.movieData.id, this.movieForm?.value?.watchDate);
+      this.dialogRef.close(true);
+    }
+    else
+    {
+
+    }
   }
 
 }

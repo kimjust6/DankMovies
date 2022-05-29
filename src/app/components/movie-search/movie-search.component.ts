@@ -4,11 +4,12 @@ import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
 import { filter, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpParams } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 
-import { FirebaseService } from 'src/app/services/firebase.service';
-import { Movie, tmdbFindMovieResults, tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
+// import { FirebaseService } from 'src/app/services/firebase.service';
+import { tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
+import { MatDialog } from '@angular/material/dialog';
+import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
 
 @Component({
   selector: 'app-movie-search',
@@ -38,7 +39,8 @@ export class MovieSearchComponent implements OnInit {
     private route: ActivatedRoute,
     public fb: FormBuilder,
     private router: Router,
-    private dbService: FirebaseService,
+    // private dbService: FirebaseService,
+    private dialog: MatDialog,
   ) {
     this.myForm = this.fb.group({
       search: [''],
@@ -87,11 +89,6 @@ export class MovieSearchComponent implements OnInit {
       this.searchMovie(this.query, this.page);
     }
 
-    // this.tmdbAPI.findMoviesObs(this.query, this.page).subscribe((res) => {
-    //   console.log(res);
-    //   this.results = res;
-    // });
-
   } // ngOnInit
 
   ngOnDestroy() {
@@ -130,7 +127,23 @@ export class MovieSearchComponent implements OnInit {
     this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: this.page } });
   }
 
-  addFilmToWatchlist(_movie: tmdbFindMovieResultsArray) {
-    this.dbService.addMovieByID(_movie.id, new Date());
+  openWatchlistModal(_movie: tmdbFindMovieResultsArray) {
+
+    // if add to watchlist is clicked, open the watchlist modal component
+    const dialogRef = this.dialog.open(WatchlistModalComponent, {
+      data: {
+        movieData: _movie
+      }
+    });
+
+    // handle when the modal is closed
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      // 
+      if (result) {
+        
+      }
+    });
+
   }
 }
