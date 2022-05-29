@@ -4,10 +4,11 @@ import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
 import { filter, map } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-
-import { tmdbFindMovieResults } from 'src/app/interfaces/interfaces';
 import { HttpParams } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
+
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { Movie, tmdbFindMovieResults, tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-movie-search',
@@ -37,18 +38,18 @@ export class MovieSearchComponent implements OnInit {
     private route: ActivatedRoute,
     public fb: FormBuilder,
     private router: Router,
+    private dbService: FirebaseService,
   ) {
     this.myForm = this.fb.group({
       search: [''],
     });
   }
 
-
   ngOnInit(): void {
-    this.router.routeReuseStrategy.shouldReuseRoute = function() {
+    // this forces the component to refresh
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
-  };
-
+    };
 
     // subscribe to the query parameters in the route
     // following code is executed whe one  the query parameters change
@@ -99,11 +100,9 @@ export class MovieSearchComponent implements OnInit {
   searchMovie(_query: string, _page: number) {
     this.tmdbAPI.findMovies(_query, _page).then((res) => {
       this.results = res;
-      console.log("result: ", res);
-      for (let r of this.results.results)
-      {
-        if (!r.backdrop_path)
-        {
+      // console.log("result: ", res);
+      for (let r of this.results.results) {
+        if (!r.backdrop_path) {
           r.backdrop_path = r.poster_path;
         }
       }
@@ -113,11 +112,11 @@ export class MovieSearchComponent implements OnInit {
   onSearch() {
     // this.searchMovie(this.myForm?.value?.search, 1);
     this.query = this.myForm?.value?.search;
-
     // redirect page using params
     if (this.query) {
       this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: 0 } });
       this.searchMovie(this.query, 1);
+      // this.myForm?.value?.search?.setValue(this.query);
     }
   }
 
@@ -129,5 +128,9 @@ export class MovieSearchComponent implements OnInit {
     console.log("pageEvent: ", _event);
     this.page = _event.pageIndex;
     this.router.navigate(["/movie/search"], { queryParams: { query: this.query, page: this.page } });
+  }
+
+  addFilmToWatchlist(_movie: tmdbFindMovieResultsArray) {
+    this.dbService.addMovieByID(_movie.id, new Date());
   }
 }

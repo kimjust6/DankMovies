@@ -31,14 +31,14 @@
                     </mat-card-content>
 
                     <mat-card-actions>
-                        <button mat-button>+ WATCHLIST</button>
+                        <button mat-button (click)=addFilmToWatchlist(result)>+ WATCHLIST</button>
                         <button mat-button>SHARE</button>
                     </mat-card-actions>
                 </div>
             </mat-card>
         </div>
-        <mat-paginator [length]="results.total_results" [pageSize]="10" [showFirstLastButtons]="true"
-            [pageIndex]="page" (page)="handlePagination($event)">
+        <mat-paginator [length]="results.total_results" [pageSize]="10" [showFirstLastButtons]="true" [pageIndex]="page"
+            (page)="handlePagination($event)">
         </mat-paginator>
     </div>
 </div>
