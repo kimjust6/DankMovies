@@ -139,10 +139,10 @@ export class MovieSearchComponent implements OnInit {
 
     // handle when the modal is closed
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log("Dialog result: ", result);
       // 
       if (result) {
-        
+
       }
     });
 

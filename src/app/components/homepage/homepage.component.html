@@ -9,20 +9,27 @@
   <mat-table [dataSource]="movieTable" matSort>
     <!-- Index Column -->
     <ng-container matColumnDef="index">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.index}} </mat-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="number-column"> No. </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="number-column"> {{element.index}} </mat-cell>
     </ng-container>
 
     <!-- Poster Column -->
     <ng-container matColumnDef="poster">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Poster </mat-header-cell>
-      <mat-cell *matCellDef="let element"><img class="poster" src="{{element.posterPath}}"> </mat-cell>
+      <mat-header-cell *matHeaderCellDef class="poster-column"> Poster </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="poster-column"><img class="poster" src="{{element.posterPath}}"> </mat-cell>
     </ng-container>
 
     <!-- Title Column -->
     <ng-container matColumnDef="movieTitle">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Film Title </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.filmTitle}} {{"\["}}{{element.releaseDate | date: 'yyyy'}}{{"\]"}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Date Watched Column -->
+    <ng-container matColumnDef="watchDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Date Watched </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.watchDate | date:'EEE MMM d, y'}}
       </mat-cell>
     </ng-container>
 
@@ -46,18 +53,18 @@
 
     <!-- Edit Column -->
     <ng-container matColumnDef="edit">
-      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <mat-icon (click)="editMovie(element)">edit</mat-icon>
+      <mat-header-cell *matHeaderCellDef class="thin-column"> </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="thin-column">
+        <mat-icon (click)="editMovie(element)" class="edit-button">edit</mat-icon>
 
       </mat-cell>
     </ng-container>
 
     <!-- Delete Column -->
     <ng-container matColumnDef="delete">
-      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let element">
-        <mat-icon (click)="openDeleteDialog(element)">delete</mat-icon>
+      <mat-header-cell *matHeaderCellDef class="thin-column "> </mat-header-cell>
+      <mat-cell *matCellDef="let element" class="thin-column">
+        <mat-icon (click)="openDeleteDialog(element)" class="delete-button">delete</mat-icon>
       </mat-cell>
     </ng-container>
 

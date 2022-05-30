@@ -20,5 +20,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close [mat-dialog-close]="false">Cancel</button>
-    <button mat-button (click)="addMovie()" [disabled]="!movieForm.valid">Add</button>
+    <button *ngIf="data.tmdbMovieData" mat-button (click)="addMovie()" [disabled]="!movieForm.valid">Add</button>
+    <button *ngIf="data.movieData" mat-button (click)="addMovie()" [disabled]="!movieForm.valid">Edit</button>
 </mat-dialog-actions>

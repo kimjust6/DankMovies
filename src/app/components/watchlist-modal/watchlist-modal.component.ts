@@ -30,16 +30,13 @@ export class WatchlistModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data);
     if (this.data.date) {
       // if a date is passed, then initialize it to the data that is passed
-      // console.log(this.data.date);
       this.movieForm?.controls['watchDate']?.setValue(this.data.date);
     }
     else {
       // otherwise initialize the form to have today's date
       this.movieForm?.controls['watchDate']?.setValue(new Date());
-      console.log(new Date());
     }
   }
 
@@ -50,13 +47,20 @@ export class WatchlistModalComponent implements OnInit {
   addMovie() {
     if (this.movieForm?.value?.watchDate) {
       if (this.data.movieData) {
-        this.dbService.addMovieByID(this.data.movieData.movieID, this.movieForm?.value?.watchDate);
-        this.dialogRef.close(true);
+        // this is probably an edit
+        this.dbService.addMovieByID(this.data.movieData.movieID, this.movieForm?.value?.watchDate).then((res) => {
+          // set the old watchdate to the new watchdate from form
+          this.data.movieData = res;
+          // pass the data back to the parent
+          this.dialogRef.close(this.data.movieData);
+        });
       }
-      else if (this.data.tmdbMovieData)
-      {
-        this.dbService.addMovieByID(this.data.tmdbMovieData.id, this.movieForm?.value?.watchDate);
-        this.dialogRef.close(true);
+      else if (this.data.tmdbMovieData) {
+        // this is probably an add
+        this.dbService.addMovieByID(this.data.tmdbMovieData.id, this.movieForm?.value?.watchDate).then((res)=>{
+          this.dialogRef.close(res);
+        });
+        
       }
     }
 

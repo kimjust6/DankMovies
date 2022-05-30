@@ -20,7 +20,7 @@ export class HomepageComponent implements OnInit {
   // variable that is set when the api call is done loading
   public finishedLoading: boolean = false;
   // the array that holds the columns of the table to show
-  public displayedColumns: string[] = ['index', 'poster', 'movieTitle', 'runtime', 'tmdbRating', 'peoplePresent', 'edit', 'delete'];
+  public displayedColumns: string[] = ['index', 'poster', 'movieTitle', 'watchDate', 'runtime', 'tmdbRating', 'peoplePresent', 'edit', 'delete'];
   // the MatTableDataSource that holds the movie data
   public movieTable: any;
   // the array version of movieTable
@@ -60,10 +60,7 @@ export class HomepageComponent implements OnInit {
         this.arrayMovieTable = res;
         this.arrayMovieTable.reverse();
         // create the index for the films so that we don't have to handle it on server side
-        let index = this.arrayMovieTable.length;
-        for (let movie of this.arrayMovieTable) {
-          movie.index = index--;
-        }
+        this.fixIndex();
 
         this.movieTable = new MatTableDataSource(this.arrayMovieTable);
         this.movieTable.sort = this.sort;
@@ -73,8 +70,6 @@ export class HomepageComponent implements OnInit {
   }
 
   editMovie(movieData: Movie) {
-    console.log("edit: ", movieData);
-
     // if add to watchlist is clicked, open the watchlist modal component
     const editDialogRef = this.dialog.open(WatchlistModalComponent, {
       data: {
@@ -85,10 +80,22 @@ export class HomepageComponent implements OnInit {
 
     // handle when the modal is closed
     editDialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-      // 
+      // handle the editing
       if (result) {
+        // delete from movieTable and firebase
+        this.deleteMovie(movieData);
+        // splice it back into to array
+        let index = 0;
+        for (; index < this.arrayMovieTable.length && this.arrayMovieTable[index].watchDate > result.watchDate; ++index) {
+        }
+        // update the array
+        this.arrayMovieTable.splice(index, 0, result);
+        // assign the data to be the newly spliced table
+        this.movieTable.data = this.arrayMovieTable;
 
+        for (let i = 0; i < this.arrayMovieTable.length; ++i) {
+          this.arrayMovieTable[i].index = this.arrayMovieTable.length - i + 1;
+        }
       }
     });
 
@@ -102,7 +109,7 @@ export class HomepageComponent implements OnInit {
         actionText: 'Delete',
         cancelText: 'Cancel',
         titleText: data?.filmTitle,
-        messageText: 'Are you sure you want to delete this movie from the list?',
+        messageText: 'Are you sure you want to delete this movie from the watchlist?',
       }
     });
 
@@ -110,12 +117,7 @@ export class HomepageComponent implements OnInit {
     deleteDialogRef.afterClosed().subscribe(result => {
       // if the confirm dialog box is selected, delete the film from the table and from the firestore db
       if (result) {
-        // console.log("deleted: ", data);
         this.deleteMovie(data);
-      }
-      else
-      {
-
       }
     });
   }
@@ -126,12 +128,20 @@ export class HomepageComponent implements OnInit {
       // if successful then delete it from the local array
       this.arrayMovieTable.splice(this.arrayMovieTable.length - (data.index), 1);
       // fix the indices of the table
-      for (let index = 0; index < this.arrayMovieTable.length - (data.index - 1); ++index) {
-        this.arrayMovieTable[index].index = this.arrayMovieTable.length - index;
-      }
+      this.fixIndex();
+      // for (let index = 0; index < this.arrayMovieTable.length - (data.index - 1); ++index) {
+      //   this.arrayMovieTable[index].index = this.arrayMovieTable.length - index;
+      // }
       // assign the data to be the newly spliced table
       this.movieTable.data = this.arrayMovieTable;
     });
+  }
+
+  fixIndex() {
+    let index = this.arrayMovieTable.length;
+    for (let movie of this.arrayMovieTable) {
+      movie.index = index--;
+    }
   }
 
 }
