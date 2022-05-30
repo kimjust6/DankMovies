@@ -100,7 +100,17 @@ export class FirebaseService {
    * @param _date the date that the film was watched
    */
   public addMovieByValue(_value: any, _date: Date): Promise<Movie> {
-    return this.updateMovieByValueByCollectionID(_value, _date, _date.getTime().toString() + this.generateUUID());
+    return this.addMovieByValueAndCollectionID(_value, _date, _date.getTime().toString() + this.generateUUID());
+  }
+
+  /**
+   * @name addMovieByValue
+   * @description save the film data to the firestore db
+   * @param _value the tmdb movie data
+   * @param _date the date that the film was watched
+   */
+  public addMovieByValueAndCollectionID(_value: any, _date: Date, _collectionID: string): Promise<Movie> {
+    return this.updateMovieByValueByCollectionID(_value, _date, _collectionID);
   }
 
   /**
@@ -178,16 +188,25 @@ export class FirebaseService {
    * @name addMovieByID
    * @description this method will look up the details of the movie using the tmdb api and saved it 
    * into the firestore db
-   * @param movieID this is the id of the movie that will be returned
-   * @param date this is the date that the movie was watched
+   * @param _movieID this is the id of the movie that will be returned
+   * @param _date this is the date that the movie was watched
    */
-  public async addMovieByID(movieID: number, date: Date): Promise<Movie> {
-    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(movieID);
-    return this.addMovieByValue(movieDetail, date);
-    // this.tmdbAPI.getMovieDetailsByID(movieID).then((res) => {
-    //   return this.addMovieByValue(res, date);
-    // });
+  public async addMovieByID(_movieID: number, _date: Date): Promise<Movie> {
+    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(_movieID);
+    return this.addMovieByValue(movieDetail, _date);
+  }
 
+  /**
+   * @name addMovieByIDandCollectionID
+   * @description this method will look up the details of the movie using the tmdb api and saved it 
+   * into the firestore db
+   * @param _movieID this is the id of the movie that will be returned
+   * @param _date this is the date that the movie was watched
+   * @param _collectionID this is the collection id that will be manually set
+   */
+  public async addMovieByIDandCollectionID(_movieID: number, _date: Date, _collectionID: string): Promise<Movie> {
+    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(_movieID);
+    return this.addMovieByValueAndCollectionID(movieDetail, _date, _collectionID);
   }
 
   /**
@@ -204,8 +223,7 @@ export class FirebaseService {
       this.movieArray[i++] = (doc.id, " => ", doc.data());
     });
     // convert firebase timestamp to date
-    for (let movie of this.movieArray)
-    {
+    for (let movie of this.movieArray) {
       movie.watchDate = movie.watchDate.toDate();
     }
     return this.movieArray;
