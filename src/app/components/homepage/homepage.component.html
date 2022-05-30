@@ -6,7 +6,7 @@
       <input matInput (ngModelChange)="applyMovieFilter($event)" formControlName="filter">
     </mat-form-field>
   </form>
-  <mat-table [dataSource]="movieTable" matSort >
+  <mat-table [dataSource]="movieTable" matSort>
     <!-- Index Column -->
     <ng-container matColumnDef="index">
       <mat-header-cell *matHeaderCellDef mat-sort-header> No. </mat-header-cell>
@@ -16,7 +16,7 @@
     <!-- Poster Column -->
     <ng-container matColumnDef="poster">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Poster </mat-header-cell>
-      <mat-cell *matCellDef="let element"><img class="poster" src="{{element.posterPath}}" > </mat-cell>
+      <mat-cell *matCellDef="let element"><img class="poster" src="{{element.posterPath}}"> </mat-cell>
     </ng-container>
 
     <!-- Title Column -->
@@ -42,6 +42,23 @@
     <ng-container matColumnDef="peoplePresent">
       <mat-header-cell *matHeaderCellDef mat-sort-header> People Present </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.watched.length + element.failed.length}} </mat-cell>
+    </ng-container>
+
+    <!-- Edit Column -->
+    <ng-container matColumnDef="edit">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon (click)="editMovie(element)">edit</mat-icon>
+
+      </mat-cell>
+    </ng-container>
+
+    <!-- Delete Column -->
+    <ng-container matColumnDef="delete">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <mat-icon (click)="deleteMovie(element)">delete</mat-icon>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -27,7 +27,7 @@ export class FirebaseService {
   private movieArray: any = [];
   private MOVIE_COLLECTION = 'Movies';
   private USER_COLLECTION = 'Users';
-  private NULL_VALUE = -69;
+  public NULL_VALUE = -69;
 
 
   constructor(
@@ -120,7 +120,7 @@ export class FirebaseService {
    * @param value 
    * @param date 
    * @param collectionID 
-   * @returns 
+   * @returns Promise<Movie>
    */
   public async updateMovieByValueByCollectionID(value: any, date: Date, collectionID: string): Promise<Movie> {
 
@@ -153,7 +153,7 @@ export class FirebaseService {
     movie.movieID ? true : movie.movieID = this.NULL_VALUE;
     movie.overview ? true : movie.overview = this.NULL_VALUE;
     movie.posterPath ? true : movie.posterPath = '';
-    movie.posterPath === '' ? movie.posterPath = value.backdrop_path : false;
+    movie.posterPath === '' ? movie.posterPath = (this.tmdbAPI.getImageBaseURL() + value.backdrop_path) : false;
     movie.rating ? true : movie.rating = this.NULL_VALUE;
     movie.releaseDate ? true : movie.releaseDate = this.NULL_VALUE;
     movie.revenue ? true : movie.revenue = this.NULL_VALUE;
@@ -211,7 +211,7 @@ export class FirebaseService {
    * @description this method deletes the film in the firestore db by using id
    * @param collectionID this is the id of the document that is to be deleted
    */
-  public async deleteMovieByID(collectionID: string): Promise<void> {
+  public async deleteMovieByCollectionID(collectionID: string): Promise<void> {
     const dataToDelete = doc(this.firestore, this.MOVIE_COLLECTION, collectionID);
     try {
       await deleteDoc(dataToDelete);

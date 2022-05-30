@@ -9,6 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
 // import { FirebaseService } from 'src/app/services/firebase.service';
 import { tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
 import { MatDialog } from '@angular/material/dialog';
+
 import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
 
 @Component({

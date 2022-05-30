@@ -41,7 +41,7 @@ export class WatchlistModalComponent implements OnInit {
     if (this.movieForm?.value?.watchDate) {
       // console.log(this.data.movieData.id, this.movieForm?.value?.watchDate);
       this.dbService.addMovieByID(this.data.movieData.id, this.movieForm?.value?.watchDate);
-      this.dialogRef.close(true);
+      this.dialogRef.close(true); 
     }
     else
     {

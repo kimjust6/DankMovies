@@ -19,6 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+
 // components
 import { AppComponent } from './app.component';
 import { HomepageComponent } from 'src/app/components/homepage/homepage.component';
