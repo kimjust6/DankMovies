@@ -78,7 +78,8 @@ export class HomepageComponent implements OnInit {
     // if add to watchlist is clicked, open the watchlist modal component
     const editDialogRef = this.dialog.open(WatchlistModalComponent, {
       data: {
-        movieData: movieData
+        movieData: movieData,
+        date: movieData.watchDate,
       }
     });
 

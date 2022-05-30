@@ -1,5 +1,7 @@
-<h2 mat-dialog-title>{{data.movieData.original_title}} {{"\["}}{{data.movieData.release_date | date:'yyyy' }}{{"\]"}}
-</h2>
+
+<h2 *ngIf="data.tmdbMovieData" mat-dialog-title>{{data.tmdbMovieData.original_title}} {{"\["}}{{data.tmdbMovieData.release_date | date:'yyyy' }}{{"\]"}} </h2>
+<h2 *ngIf="data.movieData" mat-dialog-title>{{data.movieData.filmTitle}} {{"\["}}{{data.movieData.releaseDate | date:'yyyy' }}{{"\]"}}</h2>
+
 <mat-dialog-content class="mat-typography">
     <!-- <h3>Date</h3> -->
     <!-- <p></p> -->

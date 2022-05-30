@@ -133,7 +133,7 @@ export class MovieSearchComponent implements OnInit {
     // if add to watchlist is clicked, open the watchlist modal component
     const dialogRef = this.dialog.open(WatchlistModalComponent, {
       data: {
-        movieData: _movie
+        tmdbMovieData: _movie
       }
     });
 
