@@ -46,7 +46,7 @@
 
     <!-- Edit Column -->
     <ng-container matColumnDef="edit">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-icon (click)="editMovie(element)">edit</mat-icon>
 
@@ -55,7 +55,7 @@
 
     <!-- Delete Column -->
     <ng-container matColumnDef="delete">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <mat-icon (click)="openDeleteDialog(element)">delete</mat-icon>
       </mat-cell>
