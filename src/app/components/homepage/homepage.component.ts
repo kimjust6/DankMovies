@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
+// import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -34,7 +34,7 @@ export class HomepageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: any = MatPaginator;
 
   constructor(
-    private tmdbAPI: tmdbAPIService,
+    // private tmdbAPI: tmdbAPIService,
     private dbService: FirebaseService,
     private fb: FormBuilder,
     private dialog: MatDialog,

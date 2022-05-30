@@ -203,6 +203,11 @@ export class FirebaseService {
       // doc.data() is never undefined for query doc snapshots
       this.movieArray[i++] = (doc.id, " => ", doc.data());
     });
+    // convert firebase timestamp to date
+    for (let movie of this.movieArray)
+    {
+      movie.watchDate = movie.watchDate.toDate();
+    }
     return this.movieArray;
   }
 

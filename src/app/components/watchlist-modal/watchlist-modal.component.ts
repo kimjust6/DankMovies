@@ -33,12 +33,13 @@ export class WatchlistModalComponent implements OnInit {
     console.log(this.data);
     if (this.data.date) {
       // if a date is passed, then initialize it to the data that is passed
-      console.log(this.data.date);
+      // console.log(this.data.date);
       this.movieForm?.controls['watchDate']?.setValue(this.data.date);
     }
     else {
       // otherwise initialize the form to have today's date
       this.movieForm?.controls['watchDate']?.setValue(new Date());
+      console.log(new Date());
     }
   }
 
