@@ -57,7 +57,7 @@
     <ng-container matColumnDef="delete">
       <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <mat-icon (click)="deleteMovie(element)">delete</mat-icon>
+        <mat-icon (click)="openDeleteDialog(element)">delete</mat-icon>
       </mat-cell>
     </ng-container>
 

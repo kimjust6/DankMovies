@@ -8,6 +8,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 
 import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
+import { CommonModalComponent } from '../common/common-modal/common-modal.component';
 import { Movie } from 'src/app/interfaces/interfaces';
 
 @Component({
@@ -75,14 +76,14 @@ export class HomepageComponent implements OnInit {
     console.log("edit: ", movieData);
 
     // if add to watchlist is clicked, open the watchlist modal component
-    const dialogRef = this.dialog.open(WatchlistModalComponent, {
+    const editDialogRef = this.dialog.open(WatchlistModalComponent, {
       data: {
         movieData: movieData
       }
     });
 
     // handle when the modal is closed
-    dialogRef.afterClosed().subscribe(result => {
+    editDialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       // 
       if (result) {
@@ -93,7 +94,29 @@ export class HomepageComponent implements OnInit {
   }
 
   openDeleteDialog(data: any) {
+    // open a confirmation dialog to ensure the user wants to delete the film 
+    const deleteDialogRef = this.dialog.open(CommonModalComponent, {
+      data: {
+        movie: data,
+        actionText: 'Delete',
+        cancelText: 'Cancel',
+        titleText: data?.filmTitle,
+        messageText: 'Are you sure you want to delete this movie from the list?',
+      }
+    });
 
+    // handle when the modal is closed
+    deleteDialogRef.afterClosed().subscribe(result => {
+      // if the confirm dialog box is selected, delete the film from the table and from the firestore db
+      if (result) {
+        // console.log("deleted: ", data);
+        this.deleteMovie(data);
+      }
+      else
+      {
+
+      }
+    });
   }
 
   deleteMovie(data: any) {

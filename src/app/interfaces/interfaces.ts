@@ -31,7 +31,6 @@ export interface tmdbFindMovieResults
     total_results: number;
 }
 
-
 export interface tmdbFindMovieResultsArray
 {
     adult: boolean;
@@ -49,6 +48,10 @@ export interface tmdbFindMovieResultsArray
     vote_count: number;
 }
 
+export interface FullTmdbFindMovieResultsArray
+{
+
+}
 
 export interface SimpleDataSource<T> extends DataSource<T> {
     connect(): Observable<T[]>;
