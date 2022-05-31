@@ -22,7 +22,7 @@
     <!-- Title Column -->
     <ng-container matColumnDef="movieTitle">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Film Title </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.filmTitle}} {{"\["}}{{element.releaseDate | date: 'yyyy'}}{{"\]"}}
+      <mat-cell *matCellDef="let element" (click)="navigateToDetailView(element)" class="link"> {{element.filmTitle}} {{"\["}}{{element.releaseDate | date: 'yyyy'}}{{"\]"}}
       </mat-cell>
     </ng-container>
 

@@ -1,9 +1,10 @@
 @import '/src/styles.scss';
 
-.container{
+.container {
     display: flex;
     flex-direction: column;
-    align-items: center;;
+    align-items: center;
+    ;
 }
 
 .card {
@@ -26,23 +27,25 @@
     // background-color: green;
 }
 
-.image-container
-{
+.image-container {
     min-width: 350px;
     height: 100%;
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
 
-.content{
+.content {
     display: flex;
     flex-direction: column;
     margin-left: 30px;
 }
 
-.card-content
-{
+.card-content {
     margin-left: 16px;
+}
+
+.link {
+    cursor: pointer;
 }

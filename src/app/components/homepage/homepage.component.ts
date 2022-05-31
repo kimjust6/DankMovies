@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { FirebaseService } from 'src/app/services/firebase.service';
-// import { tmdbAPIService } from 'src/app/services/tmdb-api.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
 import { CommonModalComponent } from '../common/common-modal/common-modal.component';
@@ -34,10 +34,10 @@ export class HomepageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: any = MatPaginator;
 
   constructor(
-    // private tmdbAPI: tmdbAPIService,
     private dbService: FirebaseService,
     private fb: FormBuilder,
     private dialog: MatDialog,
+    private router: Router,
   ) {
 
   }
@@ -69,7 +69,7 @@ export class HomepageComponent implements OnInit {
       });
   }
 
-  editMovie(movieData: Movie) {
+  editMovie(movieData: any) {
     // if add to watchlist is clicked, open the watchlist modal component
     const editDialogRef = this.dialog.open(WatchlistModalComponent, {
       data: {
@@ -83,22 +83,24 @@ export class HomepageComponent implements OnInit {
       // handle the editing
       if (result) {
         // delete from movieTable and firebase
-        this.deleteMovie(movieData);
-        // splice it back into to array
-        let index = 0;
-        for (; index < this.arrayMovieTable.length && this.arrayMovieTable[index].watchDate > result.watchDate; ++index) {
-        }
-        // update the array
-        this.arrayMovieTable.splice(index, 0, result);
-        // assign the data to be the newly spliced table
-        this.movieTable.data = this.arrayMovieTable;
+        this.deleteMovie(movieData).then(() => {
 
-        for (let i = 0; i < this.arrayMovieTable.length; ++i) {
-          this.arrayMovieTable[i].index = this.arrayMovieTable.length - i + 1;
-        }
-      }
+          // delete movie from the local array
+          this.arrayMovieTable.splice(this.arrayMovieTable.length - (movieData.index), 1);
+          console.log("arrayMovieTable: ", this.arrayMovieTable);
+          // find the position of the new array
+          let index = 0;
+          for (; index < this.arrayMovieTable.length && this.arrayMovieTable[index].watchDate > result.watchDate; ++index) {
+          }
+          // add the new element into the array
+          this.arrayMovieTable.splice(index, 0, result);
+          // fix the indices of the table
+          this.fixIndex();
+          // assign the data to be the newly spliced table
+          this.movieTable.data = this.arrayMovieTable;
+        });
+      } // end if
     });
-
   }
 
   openDeleteDialog(data: any) {
@@ -117,24 +119,24 @@ export class HomepageComponent implements OnInit {
     deleteDialogRef.afterClosed().subscribe(result => {
       // if the confirm dialog box is selected, delete the film from the table and from the firestore db
       if (result) {
-        this.deleteMovie(data);
+        this.deleteMovie(data).then(() => {
+          // if successful then delete it from the local array
+          this.arrayMovieTable.splice(this.arrayMovieTable.length - (data.index), 1);
+          // for (let index = 0; index < this.arrayMovieTable.length - (data.index - 1); ++index) {
+          //   this.arrayMovieTable[index].index = this.arrayMovieTable.length - index;
+          // }
+          // fix the indices of the table
+          this.fixIndex();
+          // assign the data to be the newly spliced table
+          this.movieTable.data = this.arrayMovieTable;
+        });
       }
     });
-  }
+  } // openDeleteDialog
 
-  deleteMovie(data: any) {
+  async deleteMovie(data: any) {
     // delete from the db first
-    this.dbService.deleteMovieByCollectionID(data.fireCollectionID).then(() => {
-      // if successful then delete it from the local array
-      this.arrayMovieTable.splice(this.arrayMovieTable.length - (data.index), 1);
-      // fix the indices of the table
-      this.fixIndex();
-      // for (let index = 0; index < this.arrayMovieTable.length - (data.index - 1); ++index) {
-      //   this.arrayMovieTable[index].index = this.arrayMovieTable.length - index;
-      // }
-      // assign the data to be the newly spliced table
-      this.movieTable.data = this.arrayMovieTable;
-    });
+    return await this.dbService.deleteMovieByCollectionID(data.fireCollectionID);
   }
 
   fixIndex() {
@@ -142,6 +144,10 @@ export class HomepageComponent implements OnInit {
     for (let movie of this.arrayMovieTable) {
       movie.index = index--;
     }
+  }
+
+  navigateToDetailView(movieData: Movie) {
+    this.router.navigate(["/movie/details",movieData.movieID], { queryParams: { } });
   }
 
 }
