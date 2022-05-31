@@ -1,6 +1,6 @@
 # DankMovies
 
-This project uses angular, firebase, and the TMDb api.
+This project uses angular, firebase, material design, and the TMDb api.
 
 ## Project Description
 This project is intended to replace a google spreadsheet that I made to track films that my friends and watched.
