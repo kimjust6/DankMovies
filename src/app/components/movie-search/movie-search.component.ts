@@ -9,6 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
 // import { FirebaseService } from 'src/app/services/firebase.service';
 import { tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
 import { MatDialog } from '@angular/material/dialog';
+
 import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
 
 @Component({
@@ -132,16 +133,16 @@ export class MovieSearchComponent implements OnInit {
     // if add to watchlist is clicked, open the watchlist modal component
     const dialogRef = this.dialog.open(WatchlistModalComponent, {
       data: {
-        movieData: _movie
+        tmdbMovieData: _movie
       }
     });
 
     // handle when the modal is closed
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log("Dialog result: ", result);
       // 
       if (result) {
-        
+
       }
     });
 

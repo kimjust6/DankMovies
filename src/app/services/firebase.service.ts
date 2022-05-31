@@ -27,7 +27,7 @@ export class FirebaseService {
   private movieArray: any = [];
   private MOVIE_COLLECTION = 'Movies';
   private USER_COLLECTION = 'Users';
-  private NULL_VALUE = -69;
+  public NULL_VALUE = -69;
 
 
   constructor(
@@ -100,7 +100,17 @@ export class FirebaseService {
    * @param _date the date that the film was watched
    */
   public addMovieByValue(_value: any, _date: Date): Promise<Movie> {
-    return this.updateMovieByValueByCollectionID(_value, _date, _date.getTime().toString() + this.generateUUID());
+    return this.addMovieByValueAndCollectionID(_value, _date, _date.getTime().toString() + this.generateUUID());
+  }
+
+  /**
+   * @name addMovieByValue
+   * @description save the film data to the firestore db
+   * @param _value the tmdb movie data
+   * @param _date the date that the film was watched
+   */
+  public addMovieByValueAndCollectionID(_value: any, _date: Date, _collectionID: string): Promise<Movie> {
+    return this.updateMovieByValueByCollectionID(_value, _date, _collectionID);
   }
 
   /**
@@ -120,7 +130,7 @@ export class FirebaseService {
    * @param value 
    * @param date 
    * @param collectionID 
-   * @returns 
+   * @returns Promise<Movie>
    */
   public async updateMovieByValueByCollectionID(value: any, date: Date, collectionID: string): Promise<Movie> {
 
@@ -153,7 +163,7 @@ export class FirebaseService {
     movie.movieID ? true : movie.movieID = this.NULL_VALUE;
     movie.overview ? true : movie.overview = this.NULL_VALUE;
     movie.posterPath ? true : movie.posterPath = '';
-    movie.posterPath === '' ? movie.posterPath = value.backdrop_path : false;
+    movie.posterPath === '' ? movie.posterPath = (this.tmdbAPI.getImageBaseURL() + value.backdrop_path) : false;
     movie.rating ? true : movie.rating = this.NULL_VALUE;
     movie.releaseDate ? true : movie.releaseDate = this.NULL_VALUE;
     movie.revenue ? true : movie.revenue = this.NULL_VALUE;
@@ -178,16 +188,25 @@ export class FirebaseService {
    * @name addMovieByID
    * @description this method will look up the details of the movie using the tmdb api and saved it 
    * into the firestore db
-   * @param movieID this is the id of the movie that will be returned
-   * @param date this is the date that the movie was watched
+   * @param _movieID this is the id of the movie that will be returned
+   * @param _date this is the date that the movie was watched
    */
-  public async addMovieByID(movieID: number, date: Date): Promise<Movie> {
-    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(movieID);
-    return this.addMovieByValue(movieDetail, date);
-    // this.tmdbAPI.getMovieDetailsByID(movieID).then((res) => {
-    //   return this.addMovieByValue(res, date);
-    // });
+  public async addMovieByID(_movieID: number, _date: Date): Promise<Movie> {
+    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(_movieID);
+    return this.addMovieByValue(movieDetail, _date);
+  }
 
+  /**
+   * @name addMovieByIDandCollectionID
+   * @description this method will look up the details of the movie using the tmdb api and saved it 
+   * into the firestore db
+   * @param _movieID this is the id of the movie that will be returned
+   * @param _date this is the date that the movie was watched
+   * @param _collectionID this is the collection id that will be manually set
+   */
+  public async addMovieByIDandCollectionID(_movieID: number, _date: Date, _collectionID: string): Promise<Movie> {
+    const movieDetail = await this.tmdbAPI.getMovieDetailsByID(_movieID);
+    return this.addMovieByValueAndCollectionID(movieDetail, _date, _collectionID);
   }
 
   /**
@@ -203,6 +222,10 @@ export class FirebaseService {
       // doc.data() is never undefined for query doc snapshots
       this.movieArray[i++] = (doc.id, " => ", doc.data());
     });
+    // convert firebase timestamp to date
+    for (let movie of this.movieArray) {
+      movie.watchDate = movie.watchDate.toDate();
+    }
     return this.movieArray;
   }
 
@@ -211,7 +234,7 @@ export class FirebaseService {
    * @description this method deletes the film in the firestore db by using id
    * @param collectionID this is the id of the document that is to be deleted
    */
-  public async deleteMovieByID(collectionID: string): Promise<void> {
+  public async deleteMovieByCollectionID(collectionID: string): Promise<void> {
     const dataToDelete = doc(this.firestore, this.MOVIE_COLLECTION, collectionID);
     try {
       await deleteDoc(dataToDelete);

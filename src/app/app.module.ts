@@ -19,6 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+
 // components
 import { AppComponent } from './app.component';
 import { HomepageComponent } from 'src/app/components/homepage/homepage.component';
@@ -40,6 +41,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { WatchlistModalComponent } from './components/watchlist-modal/watchlist-modal.component';
+import { CommonModalComponent } from './components/common/common-modal/common-modal.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { WatchlistModalComponent } from './components/watchlist-modal/watchlist-
     NavbarComponent,
     Page404Component,
     WatchlistModalComponent,
+    CommonModalComponent,
   ],
   imports: [
     AppRoutingModule,

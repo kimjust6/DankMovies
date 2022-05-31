@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{titleText}}</h2>
+<mat-dialog-content class="mat-typography">
+    <!-- <h3>{{titleText}}</h3> -->
+    <p>{{messageText}}</p>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>{{cancelText}}</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{actionText}}</button>
+</mat-dialog-actions>

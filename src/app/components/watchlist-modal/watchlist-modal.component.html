@@ -1,5 +1,7 @@
-<h2 mat-dialog-title>{{data.movieData.original_title}} {{"\["}}{{data.movieData.release_date | date:'yyyy' }}{{"\]"}}
-</h2>
+
+<h2 *ngIf="data.tmdbMovieData" mat-dialog-title>{{data.tmdbMovieData.original_title}} {{"\["}}{{data.tmdbMovieData.release_date | date:'yyyy' }}{{"\]"}} </h2>
+<h2 *ngIf="data.movieData" mat-dialog-title>{{data.movieData.filmTitle}} {{"\["}}{{data.movieData.releaseDate | date:'yyyy' }}{{"\]"}}</h2>
+
 <mat-dialog-content class="mat-typography">
     <!-- <h3>Date</h3> -->
     <!-- <p></p> -->
@@ -18,5 +20,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close [mat-dialog-close]="false">Cancel</button>
-    <button mat-button (click)="addMovie()" [disabled]="!movieForm.valid">Add</button>
+    <button *ngIf="data.tmdbMovieData" mat-button (click)="addMovie()" [disabled]="!movieForm.valid">Add</button>
+    <button *ngIf="data.movieData" mat-button (click)="addMovie()" [disabled]="!movieForm.valid">Edit</button>
 </mat-dialog-actions>

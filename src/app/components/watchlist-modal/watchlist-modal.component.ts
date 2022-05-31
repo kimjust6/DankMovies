@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { tmdbFindMovieResultsArray } from 'src/app/interfaces/interfaces';
+import { tmdbFindMovieResultsArray, Movie } from 'src/app/interfaces/interfaces';
 import { FirebaseService } from 'src/app/services/firebase.service';
-
 
 @Component({
   selector: 'app-watchlist-modal',
@@ -19,32 +18,53 @@ export class WatchlistModalComponent implements OnInit {
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { movieData: tmdbFindMovieResultsArray },
+    @Inject(MAT_DIALOG_DATA) public data: {
+      tmdbMovieData: tmdbFindMovieResultsArray,
+      movieData: Movie,
+      date: Date,
+    },
     private fb: FormBuilder,
     private dbService: FirebaseService,
     private dialogRef: MatDialogRef<WatchlistModalComponent>
   ) {
-    console.log(this.data.movieData)
   }
 
   ngOnInit(): void {
-    // initialize the form to have today's date
-    this.movieForm?.controls['watchDate']?.setValue(new Date());
+    if (this.data.date) {
+      // if a date is passed, then initialize it to the data that is passed
+      this.movieForm?.controls['watchDate']?.setValue(this.data.date);
+    }
+    else {
+      // otherwise initialize the form to have today's date
+      this.movieForm?.controls['watchDate']?.setValue(new Date());
+    }
   }
 
-  ngAfterView()
-  {
+  ngAfterView() {
 
   }
 
   addMovie() {
     if (this.movieForm?.value?.watchDate) {
-      // console.log(this.data.movieData.id, this.movieForm?.value?.watchDate);
-      this.dbService.addMovieByID(this.data.movieData.id, this.movieForm?.value?.watchDate);
-      this.dialogRef.close(true);
+      if (this.data.movieData) {
+        // this is probably an edit
+        this.dbService.addMovieByID(this.data.movieData.movieID, this.movieForm?.value?.watchDate).then((res) => {
+          // set the old watchdate to the new watchdate from form
+          this.data.movieData = res;
+          // pass the data back to the parent
+          this.dialogRef.close(this.data.movieData);
+        });
+      }
+      else if (this.data.tmdbMovieData) {
+        // this is probably an add
+        this.dbService.addMovieByID(this.data.tmdbMovieData.id, this.movieForm?.value?.watchDate).then((res)=>{
+          this.dialogRef.close(res);
+        });
+        
+      }
     }
-    else
-    {
+
+    else {
 
     }
   }
