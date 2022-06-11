@@ -5,10 +5,54 @@ $baseText: white;
 $light-gray: rgb(240, 240, 240);
 $light-blue: rgb(209, 225, 253);
 
-
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.card {
+  max-width: 80vw;
+  display: flex;
+  margin: 20px;
+  background-color: $light-gray;
+  // height: 200px;
+}
 
+.header-image {
+  display: flex;
+  background-size: cover;
+  max-width: 350px;
+  min-height: auto;
+  align-items: center;
+  justify-content: center;
+  margin-top: 300px;
+  // background-color: green;
+}
 
+.image-container {
+  min-width: 350px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+}
+
+.card-content {
+  margin-left: 16px;
+}
+
+.link {
+  cursor: pointer;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

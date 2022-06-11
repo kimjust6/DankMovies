@@ -1,15 +1,39 @@
 <div class="container">
-    <div class="content" *ngIf="loaded; else elseBlock">
-        <img src="{{posterURL}}">
-        <h2>{{movieData.original_title}}</h2>
-        <p>Synopsis: {{movieData.overview}}</p>
-        <p>Runtime: {{movieData.runtime}} Minutes</p>
-        <p>Rating: {{movieData.vote_average}}</p>
-        <p>Release Date: {{movieData.release_date}}</p>
-        <p>Budget: ${{movieData.budget | number}}</p>
-        <p>Revenue: ${{movieData.revenue | number}}</p>
+  <div class="image-container">
+    <div class="poster">
+      <img src="{{ posterURL }}" />
     </div>
-    <ng-template #elseBlock>
-        <h2>Loading</h2>
-    </ng-template>
+  </div>
+  <div class="content" *ngIf="loaded; else elseBlock">
+    <div class="name">
+      <h2>{{ movieData.original_title }}</h2>
+    </div>
+    <div class="item">
+      <div class="header">Synopsis</div>
+      {{ movieData.overview }}
+    </div>
+    <div class="item">
+      <div class="header">Runtime</div>
+      {{ movieData.runtime }} Minutes
+    </div>
+    <div class="item">
+      <div class="header">Rating</div>
+      {{ movieData.vote_average }}★
+    </div>
+    <div class="item">
+      <div class="header">Release Date</div>
+      {{ movieData.release_date }}
+    </div>
+    <div class="item">
+      <div class="header">Budget</div>
+      ${{ movieData.budget | number }}
+    </div>
+    <div class="item">
+      <div class="header">Revenue</div>
+      ${{ movieData.revenue | number }}
+    </div>
+  </div>
+  <ng-template #elseBlock>
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </ng-template>
 </div>
