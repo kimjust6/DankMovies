@@ -9,16 +9,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input'
-import { MatIconModule } from '@angular/material/icon'
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
-import { MatPaginatorModule } from '@angular/material/paginator';
 
 // components
 import { AppComponent } from './app.component';
@@ -68,6 +69,8 @@ import { CommonModalComponent } from './components/common/common-modal/common-mo
     MatIconModule,
     MatInputModule,
     MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSidenavModule,
     MatSortModule,
     MatTableModule,
@@ -75,7 +78,6 @@ import { CommonModalComponent } from './components/common/common-modal/common-mo
     MatToolbarModule,
     MatCardModule,
     ReactiveFormsModule,
-    MatPaginatorModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
@@ -84,9 +86,11 @@ import { CommonModalComponent } from './components/common/common-modal/common-mo
     tmdbAPIService,
     FirebaseService,
 
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }
-
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
