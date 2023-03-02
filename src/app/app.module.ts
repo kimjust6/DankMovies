@@ -99,7 +99,7 @@ import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, So
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('clientId'),
+            provider: new GoogleLoginProvider(environment.google.CLIENT_ID),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
