@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "events-b1eb4": {
+      "hosting": {
+        "DankMovies": [
+          "events-b1eb4"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "events-b1eb4"
+  }
+}

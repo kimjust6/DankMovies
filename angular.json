@@ -104,6 +104,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "DankMovies:build:production",
+            "firebaseProject": "events-b1eb4",
+            "firebaseHostingSite": "events-b1eb4"
+          }
         }
       }
     }
