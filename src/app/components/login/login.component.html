@@ -1,46 +1,71 @@
-<mat-tab-group class="tabs">
-    <div class="container">
-        <mat-tab label="Login">
-            <form [formGroup]="formLogin" class="loginForm" (ngSubmit)="handleNormalLogin()">
-                <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput formControlName="email">
-                </mat-form-field>
+<div class="container">
+	<mat-tab-group dynamicHeight class="tabs">
+		<mat-tab label="Login">
+			<div class="formContainer">
+				<form
+					[formGroup]="formLogin"
+					class="loginForm"
+					(ngSubmit)="handleNormalLogin()">
+					<mat-form-field appearance="outline">
+						<mat-label>Email</mat-label>
+						<input matInput formControlName="email" />
+					</mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input matInput type="password" formControlName="password">
-                </mat-form-field>
-                <button mat-raised-button>Login</button>
-            </form>
+					<mat-form-field appearance="outline">
+						<mat-label>Password</mat-label>
+						<input
+							matInput
+							type="password"
+							formControlName="password" />
+					</mat-form-field>
+					<button class="myButton" mat-raised-button>Login</button>
+				</form>
+				<div class="mt-1em">or</div>
+				<asl-google-signin-button
+					size="large"
+					text="continue_with"
+					theme="filled_blue"></asl-google-signin-button>
+				<button class="myButton mt-1em mb-2em" mat-raised-button>
+					Continue with Facebook
+				</button>
+			</div>
+		</mat-tab>
 
-            <button mat-raised-button (click)="signInWithGoogle()">Login with Google</button>
-            
-        </mat-tab>
-        <mat-tab label="Sign Up">
-            <form [formGroup]="formRegister" class="registerForm" (ngSubmit)="handleNormalRegister()">
-                <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput formControlName="email">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>First Name</mat-label>
-                    <input matInput formControlName="firstName">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Last Name</mat-label>
-                    <input matInput formControlName="lastName">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input matInput type="password" formControlName="password">
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Repeat Password</mat-label>
-                    <input matInput type="password" formControlName="repeatPassword">
-                </mat-form-field>
-                <button mat-raised-button>Register</button>
-            </form>
-        </mat-tab>
-    </div>
-</mat-tab-group>
+		<mat-tab label="Sign Up">
+			<form
+				[formGroup]="formRegister"
+				class="registerForm"
+				(ngSubmit)="handleNormalRegister()">
+				<mat-form-field appearance="outline">
+					<mat-label>Email</mat-label>
+					<input matInput formControlName="email" />
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>First Name</mat-label>
+					<input matInput formControlName="firstName" />
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Last Name</mat-label>
+					<input matInput formControlName="lastName" />
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Password</mat-label>
+					<input
+						matInput
+						type="password"
+						formControlName="password" />
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Repeat Password</mat-label>
+					<input
+						matInput
+						type="password"
+						formControlName="repeatPassword" />
+				</mat-form-field>
+				<button mat-raised-button class="myButton mb-2em">
+					Register
+				</button>
+			</form>
+		</mat-tab>
+	</mat-tab-group>
+</div>
