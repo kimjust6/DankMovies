@@ -1,7 +1,7 @@
 <div class="container">
     <div>
         <form [formGroup]="myForm" (ngSubmit)="onSearch()" novalidate>
-            <mat-form-field class="search" appearance="fill">
+            <mat-form-field class="search" appearance="outline">
                 <mat-label>Search</mat-label>
                 <input matInput placeholder="Title" value="" formControlName="search">
             </mat-form-field>
