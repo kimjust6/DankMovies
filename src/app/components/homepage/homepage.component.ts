@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
 import { CommonModalComponent } from '../common/common-modal/common-modal.component';
 import { Movie } from 'src/app/interfaces/interfaces';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-homepage',
@@ -39,6 +40,9 @@ export class HomepageComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
   ) {
+    console.log(environment.FIREBASE.projectId)
+    console.log(environment.GOOGLE.CLIENT_ID)
+    console.log(environment.TMDB.API_KEY_V3)
   }
 
   ngOnInit(): void {
