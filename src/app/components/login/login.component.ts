@@ -14,7 +14,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 	styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-	private user: SocialUser = new SocialUser();
+	public user: SocialUser = new SocialUser();
 	public isLoggedIn: boolean = false;
 
 	public formLogin: FormGroup = this.fb.group({
@@ -50,7 +50,8 @@ export class LoginComponent implements OnInit {
 	ngOnInit(): void {
 		this.socialAuthService.authState.subscribe(user => {
 			this.user = user;
-			this.isLoggedIn = !user;
+			this.isLoggedIn = user ? true : false;
+			console.log(user);
 		});
 	}
 
