@@ -31,6 +31,8 @@ export class HomepageComponent implements OnInit {
     filter: [null, []],
   });
 
+  public nice: string;
+
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator) paginator: any = MatPaginator;
 
@@ -40,9 +42,7 @@ export class HomepageComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
   ) {
-    console.log(environment.FIREBASE.projectId)
-    console.log(environment.GOOGLE.CLIENT_ID)
-    console.log(environment.TMDB.API_KEY_V3)
+    this.nice = environment.FIREBASE.projectId + " " + environment.GOOGLE.CLIENT_ID + " "+ environment.TMDB.API_KEY_V3
   }
 
   ngOnInit(): void {
