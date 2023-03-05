@@ -1,6 +1,6 @@
 export const environment = {
 	FIREBASE: {
-		projectId: process.env.FIRE_PROJECT_ID || "",
+		projectId: process.env.FIRE_PROJECT_ID || "projectId",
 		appId: process.env.FIRE_APP_ID || "",
 		storageBucket: process.env.FIRE_STORAGE_BUCKET || "",
 		locationId: process.env.FIRE_LOCATION_ID || "",
