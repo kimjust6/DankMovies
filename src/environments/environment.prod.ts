@@ -14,7 +14,7 @@ export const environment = {
 		CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET || '',
 	},
 	TMDB: {
-		API_KEY_V3: process.env.TMDB_API_KEY_V3 || '',
+		API_KEY_V3: process.env.TMDB_API_KEY_V3 || 'TMDB_API_KEY_V3',
 		API_KEY_V4: process.env.TMDB_API_KEY_V4 || '',
 	},
 	production: true,
