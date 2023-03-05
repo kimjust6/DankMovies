@@ -3,17 +3,25 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  firebase: {
-    projectId: 'dank-movies-fdff6',
-    appId: '1:266371148582:web:eac55a658703beedccafe7',
-    storageBucket: 'dank-movies-fdff6.appspot.com',
-    locationId: 'us-central',
-    apiKey: 'AIzaSyAKIrFkiqn-K3QKPTw1E45nuk_eVUt7iCs',
-    authDomain: 'dank-movies-fdff6.firebaseapp.com',
-    messagingSenderId: '266371148582',
-    measurementId: 'G-16HT41VTRH',
-  },
-  production: false
+	FIREBASE: {
+		projectId: process.env['FIRE_PROJECT_ID'] || '',
+		appId: process.env['FIRE_APP_ID'] || '',
+		storageBucket: process.env['FIRE_STORAGE_BUCKET'] || '',
+		locationId: process.env['FIRE_LOCATION_ID'] || '',
+		apiKey: process.env['FIRE_API_KEY'] || '',
+		authDomain: process.env['FIRE_AUTH_DOMAIN'] || '',
+		messagingSenderId: process.env['FIRE_MESSAGING_SENDER_ID'] || '',
+		measurementId: process.env['FIRE_MEASUREMENT_ID'] || '',
+	},
+	GOOGLE: {
+		CLIENT_ID: process.env['GOOGLE_CLIENT_ID'] || '',
+		CLIENT_SECRET: process.env['GOOGLE_CLIENT_SECRET'] || '',
+	},
+	TMDB: {
+		API_KEY_V3: process.env['TMDB_API_KEY_V3'] || '',
+		API_KEY_V4: process.env['TMDB_API_KEY_V4'] || '',
+	},
+  production: false,
 };
 
 /*

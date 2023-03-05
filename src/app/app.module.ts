@@ -43,6 +43,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { WatchlistModalComponent } from './components/watchlist-modal/watchlist-modal.component';
 import { CommonModalComponent } from './components/common/common-modal/common-modal.component';
+import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { CommonModalComponent } from './components/common/common-modal/common-mo
     MatToolbarModule,
     MatCardModule,
     ReactiveFormsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    SocialLoginModule,
+    provideFirebaseApp(() => initializeApp(environment.FIREBASE)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
@@ -89,6 +91,25 @@ import { CommonModalComponent } from './components/common/common-modal/common-mo
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(environment.GOOGLE.CLIENT_ID),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('clientId'),
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        },
+      } as SocialAuthServiceConfig,
     },
   ],
   bootstrap: [AppComponent],

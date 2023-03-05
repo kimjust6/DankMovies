@@ -39,7 +39,6 @@ export class HomepageComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
   ) {
-
   }
 
   ngOnInit(): void {
