@@ -80,7 +80,7 @@ import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, So
     MatCardModule,
     ReactiveFormsModule,
     SocialLoginModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirebaseApp(() => initializeApp(environment.FIREBASE)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
@@ -99,7 +99,7 @@ import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, So
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.google.CLIENT_ID),
+            provider: new GoogleLoginProvider(environment.GOOGLE.CLIENT_ID),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
