@@ -31,8 +31,6 @@ export class HomepageComponent implements OnInit {
     filter: [null, []],
   });
 
-  public nice: string;
-
   @ViewChild(MatSort) sort: MatSort = new MatSort();
   @ViewChild(MatPaginator) paginator: any = MatPaginator;
 
