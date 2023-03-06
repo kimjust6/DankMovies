@@ -46,3 +46,10 @@ Thumbs.db
 *-debug.log
 .runtimeconfig.json
 .env
+
+.vercel
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault

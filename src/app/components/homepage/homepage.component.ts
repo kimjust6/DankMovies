@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { WatchlistModalComponent } from '../watchlist-modal/watchlist-modal.component';
 import { CommonModalComponent } from '../common/common-modal/common-modal.component';
 import { Movie } from 'src/app/interfaces/interfaces';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-homepage',
