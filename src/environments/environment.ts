@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-	FIREBASE: {
+		FIREBASE: {
 		projectId: process.env['FIRE_PROJECT_ID'] || 'projectId',
 		appId: process.env['FIRE_APP_ID'] || '',
 		storageBucket: process.env['FIRE_STORAGE_BUCKET'] || '',
