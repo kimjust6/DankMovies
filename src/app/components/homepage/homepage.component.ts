@@ -42,7 +42,8 @@ export class HomepageComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
   ) {
-    this.nice = "projectId: " + environment.FIREBASE.projectId + ", CLIENT_ID: " + environment.GOOGLE.CLIENT_ID + ", API_KEY_V3: "+ environment.TMDB.API_KEY_V3
+    this.nice = "projectId: " + environment.FIREBASE.projectId + ", CLIENT_ID: " + environment.GOOGLE.CLIENT_ID + ", API_KEY_V3: "+ environment.TMDB.API_KEY_V3 + " "+ process.env.TMDB_API_KEY_V3
+    
   }
 
   ngOnInit(): void {
