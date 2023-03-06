@@ -48,3 +48,8 @@ Thumbs.db
 .env
 
 .vercel
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
