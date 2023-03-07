@@ -43,75 +43,96 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { WatchlistModalComponent } from './components/watchlist-modal/watchlist-modal.component';
 import { CommonModalComponent } from './components/common/common-modal/common-modal.component';
-import { GoogleLoginProvider, FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule } from '@abacritt/angularx-social-login';
+import {
+	GoogleLoginProvider,
+	FacebookLoginProvider,
+	SocialAuthServiceConfig,
+	SocialLoginModule,
+} from '@abacritt/angularx-social-login';
+
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomepageComponent,
-    LoginComponent,
-    MovieDetailsComponent,
-    MovieSearchComponent,
-    NavbarComponent,
-    Page404Component,
-    WatchlistModalComponent,
-    CommonModalComponent,
-  ],
-  imports: [
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    BrowserModule,
-    MatDatepickerModule,
-    FormsModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatSidenavModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    SocialLoginModule,
-    provideFirebaseApp(() => initializeApp(environment.FIREBASE)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-  ],
-  providers: [
-    tmdbAPIService,
-    FirebaseService,
+	declarations: [
+		AppComponent,
+		HomepageComponent,
+		LoginComponent,
+		MovieDetailsComponent,
+		MovieSearchComponent,
+		NavbarComponent,
+		Page404Component,
+		WatchlistModalComponent,
+		CommonModalComponent,
+	],
+	imports: [
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		BrowserModule,
+		MatDatepickerModule,
+		FormsModule,
+		HttpClientModule,
+		MatButtonModule,
+		MatDialogModule,
+		MatFormFieldModule,
+		MatIconModule,
+		MatInputModule,
+		MatNativeDateModule,
+		MatPaginatorModule,
+		MatProgressSpinnerModule,
+		MatSidenavModule,
+		MatSortModule,
+		MatTableModule,
+		MatTabsModule,
+		MatToolbarModule,
+		MatCardModule,
+		ReactiveFormsModule,
+		SocialLoginModule,
+		StoreModule.forRoot({}),
+		StoreDevtoolsModule.instrument({
+			maxAge: 25,
+			logOnly: environment.production,
+			features: {
+				pause: false,
+				lock: true,
+				persist: true,
+			},
+		}),
 
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'fill' },
-    },
-    {
-      provide: 'SocialAuthServiceConfig',
-      useValue: {
-        autoLogin: false,
-        providers: [
-          {
-            id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(environment.GOOGLE.CLIENT_ID),
-          },
-          {
-            id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('clientId'),
-          },
-        ],
-        onError: (err) => {
-          console.error(err);
-        },
-      } as SocialAuthServiceConfig,
-    },
-  ],
-  bootstrap: [AppComponent],
+		provideFirebaseApp(() => initializeApp(environment.FIREBASE)),
+		provideAuth(() => getAuth()),
+		provideFirestore(() => getFirestore()),
+	],
+	providers: [
+		tmdbAPIService,
+		FirebaseService,
+
+		{
+			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+			useValue: { appearance: 'fill' },
+		},
+		{
+			provide: 'SocialAuthServiceConfig',
+			useValue: {
+				autoLogin: false,
+				providers: [
+					{
+						id: GoogleLoginProvider.PROVIDER_ID,
+						provider: new GoogleLoginProvider(
+							environment.GOOGLE.CLIENT_ID
+						),
+					},
+					{
+						id: FacebookLoginProvider.PROVIDER_ID,
+						provider: new FacebookLoginProvider('clientId'),
+					},
+				],
+				onError: err => {
+					console.error(err);
+				},
+			} as SocialAuthServiceConfig,
+		},
+	],
+	bootstrap: [AppComponent],
 })
 export class AppModule {}
