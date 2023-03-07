@@ -52,6 +52,7 @@ import {
 
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { reducers } from './components/common/state/reducers';
 
 @NgModule({
 	declarations: [
@@ -98,7 +99,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 				persist: true,
 			},
 		}),
-
+		StoreModule.forFeature('movies', reducers),
 		provideFirebaseApp(() => initializeApp(environment.FIREBASE)),
 		provideAuth(() => getAuth()),
 		provideFirestore(() => getFirestore()),
