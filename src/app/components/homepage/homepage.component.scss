@@ -13,6 +13,7 @@ table {
 }
 
 .thin-column {
+	min-width: 80px;
 	max-width: fit-content;
 	display: flex;
 	justify-content: center;
@@ -21,7 +22,7 @@ table {
 }
 
 .number-column {
-	max-width: 25px;
+	max-width: 50px;
 	display: flex;
 	justify-content: flex-start;
 }
