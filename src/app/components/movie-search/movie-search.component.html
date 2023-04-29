@@ -11,8 +11,7 @@
 
     <div *ngIf="results!=null">
         <div *ngFor="let result of results?.results;" class="search-results">
-            <mat-card class="card">
-
+            <mat-card class="">
                 <div class="image-container">
                     <img class="header-image"
                         src="{{tmdbAPI.getImageBaseURL()}}{{ result?.backdrop_path }}"
